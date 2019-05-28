@@ -2,6 +2,9 @@
 body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-image: url('../assets/images/road.jpg');
+    background-position-y: -250px;
+    background-repeat: no-repeat;
 }
 
 /* Wrapping element */
@@ -17,6 +20,19 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.QuestionText {
+    font-size: x-large;
+}
+
+.AnswerText {
+    font-size: medium
+}
+
+.jumbotron {
+    background-color: rgba(186, 186, 186, .8);
+}
+
 
 
 /* Responsive: Portrait tablets and up */

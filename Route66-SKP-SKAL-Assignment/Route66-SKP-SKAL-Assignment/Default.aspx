@@ -2,41 +2,62 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div class="jumbotron">
-        <h1>ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-        <p><a href="http://www.asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <asp:UpdatePanel runat="server">
+        <ContentTemplate>
+            <div class="container-fluid">
+                <div class="col-md-2">
+                    <br />
+                    <br />
+                    <img src="Assets/Images/Logo.png" style="height: 100%; width: 100%"/>
+                </div>
 
-    <div class="row">
-        <div class="col-md-4">
-            <h2>Getting started</h2>
-            <p>
-                ASP.NET Web Forms lets you build dynamic websites using a familiar drag-and-drop, event-driven model.
-            A design surface and hundreds of controls and components let you rapidly build sophisticated, powerful UI-driven sites with data access.
-            </p>
-            <p>
-                <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301948">Learn more &raquo;</a>
-            </p>
-        </div>
-        <div class="col-md-4">
-            <h2>Get more libraries</h2>
-            <p>
-                NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.
-            </p>
-            <p>
-                <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301949">Learn more &raquo;</a>
-            </p>
-        </div>
-        <div class="col-md-4">
-            <h2>Web Hosting</h2>
-            <p>
-                You can easily find a web hosting company that offers the right mix of features and price for your applications.
-            </p>
-            <p>
-                <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301950">Learn more &raquo;</a>
-            </p>
-        </div>
-    </div>
 
+                <div class="col-md-8">
+                    <div class="jumbotron">
+                        <div class="Main" style="text-align:center">
+            
+                            <asp:Label runat="server" CssClass="QuestionText" ID="Question_Text" Text="Is this a question about route 66?"></asp:Label>
+
+                            <hr />
+
+                            <div class="AnswerBoxHolder">
+                                <asp:CheckBox AutoPostBack="true" runat="server" OnCheckedChanged="Checked_Changed" ID="ANSWER1" CssClass="checkbox AnswerText" Text="Answer 1"/>
+                                <asp:CheckBox AutoPostBack="true" runat="server" OnCheckedChanged="Checked_Changed" ID="ANSWER2" CssClass="checkbox AnswerText" Text="Answer 2"/>
+                                <asp:CheckBox AutoPostBack="true" runat="server" OnCheckedChanged="Checked_Changed" ID="ANSWER3" CssClass="checkbox AnswerText" Text="Answer 3"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="jumbotron">
+                        <div class="Second">
+            
+                            <asp:Label runat="server" Text="Firstname: "></asp:Label> <asp:TextBox runat="server"></asp:TextBox>
+                            <br />
+                            <br />
+                            <asp:Label runat="server" Text="Lastname: "></asp:Label> <asp:TextBox runat="server"></asp:TextBox>
+                            <br />
+                            <br />
+                            <asp:Label runat="server" Text="E-Mail:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"></asp:Label> <asp:TextBox runat="server"></asp:TextBox>
+                            <asp:Button runat="server" CssClass="btn btn-primary pull-right" ID="SubmitBtn" Text="Submit"/>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <br />
+                    <br />
+                    <img src="Assets/Images/Logo.png" style="height: 100%; width: 100%"/>
+                </div>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
 </asp:Content>
