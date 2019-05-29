@@ -22,31 +22,13 @@ namespace Route66_SKP_SKAL_Assignment {
         protected global::System.Web.UI.WebControls.Label Question_Text;
         
         /// <summary>
-        /// ANSWER1 control.
+        /// AnswerList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox ANSWER1;
-        
-        /// <summary>
-        /// ANSWER2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox ANSWER2;
-        
-        /// <summary>
-        /// ANSWER3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox ANSWER3;
+        protected global::System.Web.UI.WebControls.RadioButtonList AnswerList;
         
         /// <summary>
         /// SubmitBtn control.

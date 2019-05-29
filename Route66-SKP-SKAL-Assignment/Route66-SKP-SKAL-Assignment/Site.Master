@@ -46,7 +46,8 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" runat="server" href="~/">Route 66</a>
+                    <a class="navbar-brand RemoveWhenBig" runat="server" href="~/"><img src="Assets/Images/Logo.png" style="height: 100%;"/></a>
+                    <a class="navbar-brand RemoveWhenSmall" runat="server" href="~/">Route66</a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav pull-right">
@@ -61,7 +62,7 @@
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p style="color:white; text-align:center">&copy; <%: DateTime.Now.Year %> - Kristian K. S. Nielsen</p>
+                <p style="color:white; text-align:center">&copy; <%: DateTime.Now.Year %> - Kristian K. S. Nielsen & Minik G. Lambrecht</p>
             </footer>
         </div>
 

@@ -33,15 +33,38 @@ textarea {
     background-color: rgba(186, 186, 186, .8);
 }
 
+.AnswerList {
+    text-align:center;
+    display:flex;
+    justify-content:center;
+}
+
 
 
 /* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 800px) {
     .jumbotron {
         margin-top: 20px;
     }
 
+    .RemoveWhenBig {
+        display: none;
+    }
+
     .body-content {
         padding: 0;
+    }
+}
+
+/* Responsive: Portrait tablets and down */
+@media screen and (max-width: 800px) {
+
+    .RemoveWhenSmall {
+        display: none;
+    }
+
+    .SizeLogoImageWhenSmall {
+        width: 50%;
+        height: 50%;
     }
 }
