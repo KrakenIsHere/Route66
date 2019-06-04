@@ -30,7 +30,7 @@ textarea {
 }
 
 .jumbotron {
-    background-color: rgba(186, 186, 186, .8);
+    background-color: rgba(186, 186, 186, 0.8);
 }
 
 .AnswerList {
@@ -42,7 +42,7 @@ textarea {
 
 
 /* Responsive: Portrait tablets and up */
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 992px) {
     .jumbotron {
         margin-top: 20px;
     }
@@ -57,7 +57,7 @@ textarea {
 }
 
 /* Responsive: Portrait tablets and down */
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 992px) {
 
     .RemoveWhenSmall {
         display: none;

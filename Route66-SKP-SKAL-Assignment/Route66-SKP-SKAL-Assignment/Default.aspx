@@ -23,30 +23,107 @@
 
                 <div class="col-md-8">
                     <div class="jumbotron" style="border-bottom: 0px;">
-                        <div class="Main" style="text-align:center">
+                        <!-- Bootstrap CSS -->
+                        <div style="width:100%; height:100%;">
+		
+                            <!-- Carousel container -->
+                            <div id="my-pics" class="carousel slide" data-ride="carousel" style="margin:auto;">
+
+                                <!-- Content -->
+                                <div runat="server" id="QuestionMenu" class="carousel-inner" role="listbox">
+
+                                    <!-- Content 1 -->
+                                    <div class="item active">
+                                        <div class="Main" style="text-align:center">
             
-                            <asp:Label runat="server" CssClass="QuestionText" ID="Question_Text" Text="Is this a question about route 66?"></asp:Label>
+                                            <asp:Label runat="server" CssClass="QuestionText" ID="Question_Text1" Text="Is this a question about route 66?"></asp:Label>
+                                            
+                                            <hr />
 
-                            <hr />
+                                            <asp:RadioButtonList runat="server" ID="AnswerList1" CssClass="AnswerList">
+                                                <asp:ListItem Text="&nbsp;&nbsp; Answer 1"></asp:ListItem>
+                                                <asp:ListItem Text="&nbsp;&nbsp; Answer 2"></asp:ListItem>
+                                                <asp:ListItem Text="&nbsp;&nbsp; Answer 3"></asp:ListItem>
+                                            </asp:RadioButtonList>
+                                        </div>
+                                    </div>
 
-                            <asp:RadioButtonList runat="server" ID="AnswerList" CssClass="AnswerList">
-                                <asp:ListItem Text="&nbsp;&nbsp; Answer 1"></asp:ListItem>
-                                <asp:ListItem Text="&nbsp;&nbsp; Answer 2"></asp:ListItem>
-                                <asp:ListItem Text="&nbsp;&nbsp; Answer 3"></asp:ListItem>
-                            </asp:RadioButtonList>
+                                    <!-- Content 2 -->
+                                    <div class="item">
+                                        <div class="Main" style="text-align:center">
+            
+                                            <asp:Label runat="server" CssClass="QuestionText" ID="Question_Text2" Text="Is this another question about route 66?"></asp:Label>
+
+                                            <hr />
+
+                                            <asp:RadioButtonList runat="server" ID="AnswerList2" CssClass="AnswerList">
+                                                <asp:ListItem Text="&nbsp;&nbsp; Answer 4"></asp:ListItem>
+                                                <asp:ListItem Text="&nbsp;&nbsp; Answer 5"></asp:ListItem>
+                                                <asp:ListItem Text="&nbsp;&nbsp; Answer 6"></asp:ListItem>
+                                            </asp:RadioButtonList>
+                                        </div>
+                                    </div>
+
+                                    <!-- Content 3 -->
+                                    <div class="item">
+                                        <div class="Main" style="text-align:center">
+            
+                                            <asp:Label runat="server" CssClass="QuestionText" ID="Question_Text3" Text="Is this third question about route 66?"></asp:Label>
+
+                                            <hr />
+
+                                            <asp:RadioButtonList runat="server" ID="AnswerList3" CssClass="AnswerList">
+                                                <asp:ListItem Text="&nbsp;&nbsp; Answer 7"></asp:ListItem>
+                                                <asp:ListItem Text="&nbsp;&nbsp; Answer 8"></asp:ListItem>
+                                                <asp:ListItem Text="&nbsp;&nbsp; Answer 9"></asp:ListItem>
+                                            </asp:RadioButtonList>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- Previous/Next controls -->
+                                <a class="left carousel-control" href="#my-pics" role="button" data-slide="prev">
+                                    <span class="icon-prev" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="right carousel-control" href="#my-pics" role="button" data-slide="next">
+                                    <span class="icon-next" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+
+                            </div>
                         </div>
+		
+                        <!-- jQuery library -->
+                        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+                        <!-- Bootstrap JS -->
+                        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+                        <!-- Initialize Bootstrap functionality -->
+                        <script>
+                            // Initialize tooltip component
+                            $(function () {
+                                $('[data-toggle="tooltip"]').tooltip()
+                            })
+
+                            // Initialize popover component
+                            $(function () {
+                                $('[data-toggle="popover"]').popover()
+                            })
+                        </script>
                     </div>
 
                     <div class="jumbotron">
                         <div class="Second">
             
-                            <asp:Label runat="server" Text="Firstname: "></asp:Label> <asp:TextBox runat="server"></asp:TextBox>
+                            <asp:Label runat="server" Text="Firstname: "></asp:Label> <asp:TextBox ID="FIRSTNAME_TEXTBOX" runat="server"></asp:TextBox>
                             <br />
                             <br />
-                            <asp:Label runat="server" Text="Lastname: "></asp:Label> <asp:TextBox runat="server"></asp:TextBox>
+                            <asp:Label runat="server" Text="Lastname: "></asp:Label> <asp:TextBox ID="LASTNAME_TEXTBOX" runat="server"></asp:TextBox>
                             <br />
                             <br />
-                            <asp:Label runat="server" Text="E-Mail:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"></asp:Label> <asp:TextBox runat="server"></asp:TextBox>
+                            <asp:Label runat="server" Text="E-Mail:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"></asp:Label> <asp:TextBox ID="EMAIL_TEXTBOX" runat="server"></asp:TextBox>
                             <asp:Button runat="server" CssClass="btn btn-primary pull-right" ID="SubmitBtn" Text="Submit"/>
 
                         </div>
