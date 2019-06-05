@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Route66_SKP_SKAL_Assignment._Default" %>
+﻿<%@ Page Title="Route 66" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Route66_SKP_SKAL_Assignment._Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -124,8 +124,9 @@
                             <br />
                             <br />
                             <asp:Label runat="server" Text="E-Mail:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"></asp:Label> <asp:TextBox ID="EMAIL_TEXTBOX" runat="server"></asp:TextBox>
-                            <asp:Button runat="server" CssClass="btn btn-primary pull-right" ID="SubmitBtn" Text="Submit"/>
-
+                            <asp:Button runat="server" CssClass="btn btn-primary pull-right" ID="SubmitBtn" OnClick="SubmitBtn_Clicked" Text="Submit"/>
+                            <br />
+                            <asp:Label runat="server" ID="ERROR_LABEL"></asp:Label>
                         </div>
                     </div>
                 </div>

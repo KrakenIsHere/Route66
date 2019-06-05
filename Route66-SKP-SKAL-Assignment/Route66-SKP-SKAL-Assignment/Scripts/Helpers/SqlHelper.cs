@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -32,6 +33,25 @@ namespace Route66_SKP_SKAL_Assignment.Scripts.Helpers
                 var rows = dt.AsEnumerable().ToArray();
 
                 return rows;
+            }
+        }
+
+        public DataSet GetTableFromDatabase(string query) //Returns rows in table
+        {
+            if (!isKraken)
+            {
+                connStringName = connStringName2;
+            }
+
+            using (var conn = new MySqlConnection(ConfigurationManager.ConnectionStrings[connStringName].ConnectionString))
+            {
+                conn.Open();
+
+                var da = new MySqlDataAdapter(query, conn);
+                var ds = new DataSet();
+                da.Fill(ds, "EmployeeDetails");
+
+                return ds;
             }
         }
 

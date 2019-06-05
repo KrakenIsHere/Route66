@@ -35,6 +35,18 @@ namespace Route66_SKP_SKAL_Assignment
             }
         }
 
+        void GetStart()
+        {
+            string query = "" +
+                "Select * from kristia1_route66.startinfo " +
+                $"Where info_ID = 1";
+
+            DataRow[] rows = sql.GetDataFromDatabase(query);
+
+            startMonth = int.Parse(rows[0]["info_SM"].ToString());
+            startYear = int.Parse(rows[0]["info_SY"].ToString());
+        }
+
         int[] GetMonthIdForQuestion(int SM, int SY)
         {
             int[] resultId = new int[3];
@@ -117,7 +129,6 @@ namespace Route66_SKP_SKAL_Assignment
 
                             correctAnswer1 = int.Parse(row["question_CORRECT-ANSWER"].ToString());
                             questionId1 = int.Parse(row["question_ID"].ToString());
-                            Debug.WriteLine(int.Parse(row["question_ID"].ToString()));
                             break;
                         }
                     case 2:
@@ -130,7 +141,6 @@ namespace Route66_SKP_SKAL_Assignment
 
                             correctAnswer2 = int.Parse(row["question_CORRECT-ANSWER"].ToString());
                             questionId2 = int.Parse(row["question_ID"].ToString());
-                            Debug.WriteLine(int.Parse(row["question_ID"].ToString()));
                             break;
                         }
                     case 3:
@@ -143,8 +153,6 @@ namespace Route66_SKP_SKAL_Assignment
 
                             correctAnswer3 = int.Parse(row["question_CORRECT-ANSWER"].ToString());
                             questionId3 = int.Parse(row["question_ID"].ToString());
-
-                            Debug.WriteLine(int.Parse(row["question_ID"].ToString()));
                             break;
                         }
                 }
@@ -154,7 +162,14 @@ namespace Route66_SKP_SKAL_Assignment
 
         protected void SubmitBtn_Clicked(object sender, EventArgs e)
         {
-
+            try
+            {
+                PostVisitToDatabase();
+            }
+            catch (Exception ex)
+            {
+                WriteSubmissionError(ex);
+            }
         }
 
         int GetSubmissionAnswerID(int questionNum)
@@ -192,17 +207,88 @@ namespace Route66_SKP_SKAL_Assignment
             return result;
         }
 
+        bool VarifyInputTextboxs()
+        {
+            bool result = false;
+
+            if (!string.IsNullOrWhiteSpace(FIRSTNAME_TEXTBOX.Text))
+            {
+                if (!string.IsNullOrWhiteSpace(LASTNAME_TEXTBOX.Text))
+                {
+                    if (!string.IsNullOrWhiteSpace(EMAIL_TEXTBOX.Text))
+                    {
+                        if (EMAIL_TEXTBOX.Text.Contains('@'))
+                        {
+                            if (EMAIL_TEXTBOX.Text.Contains('.'))
+                            {
+                                result = true;
+                            }
+                            else
+                            {
+                                throw new Exception("The '.' is missing in E-Mail");
+                            }
+                        }
+                        else
+                        {
+                            throw new Exception("The '@' is missing in E-Mail");
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("E-Mail is empty");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Lastname is empty");
+                }
+            }
+            else
+            {
+                throw new Exception("Firstname is empty");
+            }
+
+            return result;
+        }
+
+        void WriteSubmissionError(Exception error)
+        {
+            Debug.WriteLine(error);
+            ERROR_LABEL.Text = error.Message;
+        }
+
+        string CustomIdGen()
+        {
+            Random random = new Random();
+
+            string result = "";
+
+            string[] ID = DateTime.Now.ToString().Split(' ');
+
+            result = $"{ID[0]}-{ID[1]}-{random.Next(1111, 9999)}";
+
+            return result;
+        }
+
         void PostVisitToDatabase()
         {
-            string query = "" +
-                "INSERT INTO kritia1_route66.visitors (visitor_FIRSTNAME, visitor_LASTNAME, visitor_EMAIL, visitor_ANSWER_ID, visitor_QUESTION_ID)" +
-                $"VALUES {FIRSTNAME_TEXTBOX.Text}, {LASTNAME_TEXTBOX.Text}, {EMAIL_TEXTBOX.Text}, {GetSubmissionAnswerID(1)}, {questionId1}" +
-                "" +
-                "INSERT INTO kritia1_route66.visitors (visitor_FIRSTNAME, visitor_LASTNAME, visitor_EMAIL, visitor_ANSWER_ID, visitor_QUESTION_ID)" +
-                $"VALUES {FIRSTNAME_TEXTBOX.Text}, {LASTNAME_TEXTBOX.Text}, {EMAIL_TEXTBOX.Text}, {GetSubmissionAnswerID(2)}, {questionId2}" +
-                "" +
-                "INSERT INTO kritia1_route66.visitors (visitor_FIRSTNAME, visitor_LASTNAME, visitor_EMAIL, visitor_ANSWER_ID, visitor_QUESTION_ID)" +
-                $"VALUES {FIRSTNAME_TEXTBOX.Text}, {LASTNAME_TEXTBOX.Text}, {EMAIL_TEXTBOX.Text}, {GetSubmissionAnswerID(3)}, {questionId3}";
+
+            if (VarifyInputTextboxs())
+            {
+                string ID = CustomIdGen();
+
+                string query = "" +
+                    "INSERT INTO kritia1_route66.visitors (visitor_FIRSTNAME, visitor_LASTNAME, visitor_EMAIL, visitor_CUSTOM-ID, visitor_ANSWER_ID, visitor_QUESTION_ID)" +
+                    $"VALUES {FIRSTNAME_TEXTBOX.Text}, {LASTNAME_TEXTBOX.Text}, {EMAIL_TEXTBOX.Text}, {ID}, {GetSubmissionAnswerID(1)}, {questionId1}" +
+                    "" +
+                    "INSERT INTO kritia1_route66.visitors (visitor_FIRSTNAME, visitor_LASTNAME, visitor_EMAIL, visitor_CUSTOM-ID, visitor_ANSWER_ID, visitor_QUESTION_ID)" +
+                    $"VALUES {FIRSTNAME_TEXTBOX.Text}, {LASTNAME_TEXTBOX.Text}, {EMAIL_TEXTBOX.Text}, {ID}, {GetSubmissionAnswerID(2)}, {questionId2}" +
+                    "" +
+                    "INSERT INTO kritia1_route66.visitors (visitor_FIRSTNAME, visitor_LASTNAME, visitor_EMAIL, visitor_CUSTOM-ID, visitor_ANSWER_ID, visitor_QUESTION_ID)" +
+                    $"VALUES {FIRSTNAME_TEXTBOX.Text}, {LASTNAME_TEXTBOX.Text}, {EMAIL_TEXTBOX.Text}, {ID}, {GetSubmissionAnswerID(3)}, {questionId3}";
+
+                sql.SetDataToDatabase(query);
+            }
         }
     }
 }

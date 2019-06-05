@@ -13,6 +13,8 @@ namespace Route66_SKP_SKAL_Assignment
             var settings = new FriendlyUrlSettings();
             settings.AutoRedirectMode = RedirectMode.Permanent;
             routes.EnableFriendlyUrls(settings);
+
+            routes.MapPageRoute("AdminPanel", "Admin", "~/Admin.aspx");
         }
     }
 }
