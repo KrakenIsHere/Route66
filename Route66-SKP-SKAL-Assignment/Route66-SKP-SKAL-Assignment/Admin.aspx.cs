@@ -12,11 +12,88 @@ namespace Route66_SKP_SKAL_Assignment
 {
     public partial class Admin : System.Web.UI.Page
     {
-        string getAllVisitors = "SELECT * FROM kristia1_route66.`all-visitors`;";
+        readonly string getAllVisitors = "SELECT * FROM kristia1_route66.`all-visitors`;";//Used as is
+
+        readonly string getShowOnlyCorrect = "" + //Used as is
+            "SELECT * FROM kristia1_route66.`all-visitors`" +
+            "WHERE ANSWER_ID = 1";
+
+        readonly string getShowOnlyCorrectFromQuestion = "" + //Needs extra input
+            "SELECT * FROM kristia1_route66.`all-visitors`" +
+            "WHERE ANSWER_ID = 1 AND QUESTION_ID = ";
+
+        readonly string getShowOnlyFromQuestion = "" + //Needs extra input
+            "SELECT * FROM kristia1_route66.`all-visitors`" +
+            "WHERE QUESTION_ID = ";
+
+        readonly string getShowOnlyFromMonth = "" + //Needs extra input
+            "SELECT * FROM `kristia1_route66`.`all-visitors`" +
+            "WHERE `CUSTOM-ID` LIKE '%:%' ";
+
         public int CurrentSM;
         public int CurrentSY;
 
         SqlHelper sql = new SqlHelper();
+
+        protected void SearchAllAnswersByMonthBtn(object sender, EventArgs e)
+        {
+            try
+            {
+                InsertDataToTable(sql.GetSetFromDatabase(getShowOnlyFromMonth.Replace(":", QUESTION_MONTHS_DROP.SelectedValue)).Tables[0]);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
+
+        protected void SearchAllAnswersByQuestionBtn(object sender, EventArgs e)
+        {
+            try
+            {
+                InsertDataToTable(sql.GetSetFromDatabase(getShowOnlyFromQuestion + CORRECT_BY_QUESTION_DROP.SelectedValue).Tables[0]);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
+
+        protected void SearchAllCorrectAnswersByQuestionBtn(object sender, EventArgs e)
+        {
+            try
+            {
+                InsertDataToTable(sql.GetSetFromDatabase(getShowOnlyCorrectFromQuestion + CORRECT_BY_QUESTION_DROP.SelectedValue).Tables[0]);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
+
+        protected void SearchAllCorrectAnswersBtn(object sender, EventArgs e)
+        {
+            try
+            {
+                InsertDataToTable(sql.GetSetFromDatabase(getShowOnlyCorrect).Tables[0]);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
+
+        protected void SearchAllAnswersBtn(object sender, EventArgs e)
+        {
+            try
+            {
+                InsertDataToTable(sql.GetSetFromDatabase(getAllVisitors).Tables[0]);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -38,14 +115,35 @@ namespace Route66_SKP_SKAL_Assignment
 
         void InsertDataToTable(DataTable table)
         {
-            Debug.WriteLine(table);
-
             DATA_GRID.DataSource = table;
             DATA_GRID.DataBind();
         }
 
         void SetDropDowns()
         {
+            string query = "" +
+                "SELECT * FROM kristia1_route66.`questions`";
+
+            var queryRows = sql.GetDataFromDatabase(query);
+
+            foreach (DataRow row in queryRows)
+            {
+                CORRECT_BY_QUESTION_DROP.Items.Add(new ListItem(row["question_ID"].ToString(), row["question_ID"].ToString()));
+            }
+
+            QUESTION_MONTHS_DROP.Items.Add(new ListItem("January", "Jan"));
+            QUESTION_MONTHS_DROP.Items.Add(new ListItem("February", "Feb"));
+            QUESTION_MONTHS_DROP.Items.Add(new ListItem("March", "Mar"));
+            QUESTION_MONTHS_DROP.Items.Add(new ListItem("April", "Apr"));
+            QUESTION_MONTHS_DROP.Items.Add(new ListItem("May", "May"));
+            QUESTION_MONTHS_DROP.Items.Add(new ListItem("June", "Jun"));
+            QUESTION_MONTHS_DROP.Items.Add(new ListItem("July", "Jul"));
+            QUESTION_MONTHS_DROP.Items.Add(new ListItem("August", "Aug"));
+            QUESTION_MONTHS_DROP.Items.Add(new ListItem("September", "Sep"));
+            QUESTION_MONTHS_DROP.Items.Add(new ListItem("October", "Oct"));
+            QUESTION_MONTHS_DROP.Items.Add(new ListItem("November", "Nov"));
+            QUESTION_MONTHS_DROP.Items.Add(new ListItem("December", "Dec"));
+
             //Month
             MONTH_LIST.Items.Add(new ListItem("January", "1"));
             MONTH_LIST.Items.Add(new ListItem("February", "2"));
@@ -69,7 +167,7 @@ namespace Route66_SKP_SKAL_Assignment
             YEAR_LIST.Items.Add(new ListItem($"{CurrentSY + 2}", $"{CurrentSY + 2}"));
         }
 
-        protected void Submitbtn(object sender, EventArgs e)
+        protected void SubmitNewStartBtn(object sender, EventArgs e)
         {
             try
             {
@@ -78,6 +176,61 @@ namespace Route66_SKP_SKAL_Assignment
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+            }
+        }
+
+        protected void SubmitNewQuestionBtn(object sender, EventArgs e)
+        {
+            try
+            {
+                PostNewQuestion();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
+
+        int GetQuestionTableSize()
+        {
+            int result = 0;
+
+            string query = "" +
+                "SELECT * FROM kristia1_route66.`questions`;";
+
+            var rows = sql.GetDataFromDatabase(query);
+
+            result = rows.Length;
+
+            return result;
+        }
+
+        bool VerifyTextboxContent()
+        {
+            bool result = false;
+
+            
+
+            return result;
+        }
+
+        void PostNewQuestion()
+        {
+            if (VerifyTextboxContent())
+            {
+                int nextID = GetQuestionTableSize() + 1;
+
+                string query = "" +
+                    "INSERT INTO `kristia1_route66`.`questions`" +
+                    "(`question_ID`, `question_TEXT`, " +
+                    "`question_ANSWER1`, `question_ANSWER2`, `question_ANSWER3`, " +
+                    "`question_CORRECT-ANSWER`) " +
+                    "VALUES" +
+                    $"{nextID}, '{QUESTION_TEXT.Text}', " +
+                    $"'{ANSWER1_TEXT.Text}', '{ANSWER2_TEXT.Text}', '{ANSWER3_TEXT.Text}', " +
+                    $"'{ANSWER_DROP.SelectedValue}'";
+
+                sql.SetDataToDatabase(query);
             }
         }
 

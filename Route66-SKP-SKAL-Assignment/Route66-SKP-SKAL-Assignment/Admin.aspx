@@ -3,33 +3,48 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
+    <br />
+
     <div class="container-fluid">
-        <div class="col-md-12">
-            <div class="jumbotron">
-                <asp:Button runat="server" CssClass="btn btn-primary" Text="Correct Answers"></asp:Button>
-                <asp:Button runat="server" CssClass="btn btn-primary" Text="Correct Answers"></asp:Button>
-                <asp:Button runat="server" CssClass="btn btn-primary" Text="Correct Answers"></asp:Button>
-                <asp:Button runat="server" CssClass="btn btn-primary" Text="Correct Answers"></asp:Button>
-                <asp:Button runat="server" CssClass="btn btn-primary" Text="Correct Answers"></asp:Button>
-                <asp:Button runat="server" CssClass="btn btn-primary" Text="Correct Answers"></asp:Button>
-                <asp:Button runat="server" CssClass="btn btn-primary" Text="Correct Answers"></asp:Button>
+        <div class="row">
+            <div class="col-md-3">
+                <asp:Button runat="server" CssClass="btn btn-primary" OnClick="SearchAllAnswersBtn" Text="All Answers"></asp:Button>
+                <asp:Button runat="server" CssClass="btn btn-primary" OnClick="SearchAllCorrectAnswersBtn" Text="Correct Answers"></asp:Button>
+            </div>
 
-                <br />
-                <br />
+            <div class="col-md-5">
+                <asp:Button runat="server" CssClass="btn btn-primary" OnClick="SearchAllCorrectAnswersByQuestionBtn" Text="#Question Correct"></asp:Button>
+                <asp:Button runat="server" CssClass="btn btn-primary" OnClick="SearchAllAnswersByQuestionBtn" Text="#Question Answers"></asp:Button>
+                <asp:DropDownList runat="server" CssClass="btn btn-primary" ID="CORRECT_BY_QUESTION_DROP" ToolTip="Question Number/ID">
 
-                <asp:GridView ID="DATA_GRID" runat="server" CellPadding="4" ForeColor="#333333" GridLines="Both" Width="100%">
-                    <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
-                    <EditRowStyle BackColor="#999999" />
-                    <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White"/>
-                    <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White"/>
-                    <PagerStyle BackColor="#284775" ForeColor="White"/>
-                    <RowStyle BackColor="#F7F6F3" ForeColor="#333333" HorizontalAlign="Center" />
-                    <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
-                    <SortedAscendingCellStyle BackColor="#E9E7E2" />
-                    <SortedAscendingHeaderStyle BackColor="#506C8C" />
-                    <SortedDescendingCellStyle BackColor="#FFFDF8" />
-                    <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
-                </asp:GridView>
+                </asp:DropDownList>
+            </div>
+            <div class="col-md-4">
+                <asp:Button runat="server" CssClass="btn btn-primary" OnClick="SearchAllAnswersByMonthBtn" Text="#Question Answers"></asp:Button>
+                <asp:DropDownList runat="server" CssClass="btn btn-primary" ID="QUESTION_MONTHS_DROP" ToolTip="Questions From Month">
+                    
+                </asp:DropDownList>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jumbotron">
+                    <asp:GridView ID="DATA_GRID" runat="server" CellPadding="4" ForeColor="#333333" GridLines="Both" Width="100%">
+                        <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
+                        <EditRowStyle BackColor="#999999" />
+                        <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White"/>
+                        <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White"/>
+                        <PagerStyle BackColor="#284775" ForeColor="White"/>
+                        <RowStyle BackColor="#F7F6F3" ForeColor="#333333" HorizontalAlign="Center" />
+                        <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+                        <SortedAscendingCellStyle BackColor="#E9E7E2" />
+                        <SortedAscendingHeaderStyle BackColor="#506C8C" />
+                        <SortedDescendingCellStyle BackColor="#FFFDF8" />
+                        <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
+                    </asp:GridView>
+                </div>
             </div>
         </div>
     </div>
@@ -48,17 +63,46 @@
                     </asp:DropDownList>
                     <br />
                     <br />
-                    <asp:Button runat="server" CssClass="btn btn-primary" OnClick="Submitbtn" ID="StartBtn" Text="Set New Start Date"/>
+                    <asp:Button runat="server" CssClass="btn btn-primary" OnClick="SubmitNewStartBtn" ID="StartBtn" Text="Set New Start Date"/>
                     <br />
                     <asp:Label runat="server" ID="ERROR_LABEL"></asp:Label>
                 </div>
             </div>
         </div>
+
+        <div class="col-md-8">
+            <div class="jumbotron">
+                <div class="SetStart">
+                    <asp:Label runat="server" Text="Question: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"></asp:Label> 
+                    <asp:TextBox runat="server" CssClass="SubmitQuestionTextbox" ID="QUESTION_TEXT"></asp:TextBox>
+                    <br />
+                    <br />
+                    <asp:Label runat="server" Text="Answer #1: &nbsp;&nbsp;"></asp:Label>
+                    <asp:TextBox runat="server" CssClass="SubmitQuestionTextbox" ID="ANSWER1_TEXT"></asp:TextBox>
+                    <br />
+                    <br />
+                    <asp:Label runat="server" Text="Answer #2: &nbsp;&nbsp;"></asp:Label>
+                    <asp:TextBox runat="server" CssClass="SubmitQuestionTextbox" ID="ANSWER2_TEXT"></asp:TextBox>
+                    <br />
+                    <br />
+                    <asp:Label runat="server" Text="Answer #3: &nbsp;&nbsp;"></asp:Label>
+                    <asp:TextBox runat="server" CssClass="SubmitQuestionTextbox" ID="ANSWER3_TEXT"></asp:TextBox>
+                    <br />
+                    <br />
+                    <asp:Label runat="server" Text="Correct Answer: "></asp:Label>
+                    <asp:DropDownList runat="server" CssClass="btn btn-primary" ID="ANSWER_DROP">
+                        <asp:ListItem Value="0" Text="Select Answer"></asp:ListItem>
+                        <asp:ListItem Value="1" Text="Answer #1"></asp:ListItem>
+                        <asp:ListItem Value="2" Text="Answer #2"></asp:ListItem>
+                        <asp:ListItem Value="3" Text="Answer #3"></asp:ListItem>
+                    </asp:DropDownList>
+
+                    <asp:Button runat="server" CssClass="btn btn-primary" OnClick="SubmitNewQuestionBtn" ID="QuestionBtn" Text="Submit New Question"/>
+                    <br />
+                    <asp:Label runat="server" ID="QUESTION_ERROR_LABEL"></asp:Label>
+                </div>
+            </div>
+        </div>
     </div>
-
-
-    <asp:Table runat="server" ID="INFO_TABLE">
-
-    </asp:Table>
 
 </asp:Content>

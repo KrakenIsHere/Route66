@@ -130,7 +130,7 @@
                                     <asp:Label runat="server" Text="Lastname: "></asp:Label> <asp:TextBox ID="LASTNAME_TEXTBOX" runat="server"></asp:TextBox>
                                     <br />
                                     <br />
-                                    <asp:Label runat="server" Text="E-Mail:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"></asp:Label> <asp:TextBox ID="EMAIL_TEXTBOX" runat="server"></asp:TextBox>
+                                    <asp:Label runat="server" Text="E-Mail:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"></asp:Label> <asp:TextBox ID="EMAIL_TEXTBOX" TextMode="Email" runat="server"></asp:TextBox>
                                     <asp:Button runat="server" CssClass="btn btn-primary pull-right" ID="SubmitBtn" OnClick="SubmitBtn_Clicked" Text="Submit"/>
                                     <br />
                                     <asp:Label runat="server" ID="ERROR_LABEL" CssClass="ErrorLabel"></asp:Label>

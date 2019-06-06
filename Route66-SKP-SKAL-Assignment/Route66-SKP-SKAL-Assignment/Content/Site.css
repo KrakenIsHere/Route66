@@ -24,6 +24,11 @@ textarea {
     color: darkred;
 }
 
+.SubmitQuestionTextbox {
+    max-width: 100%;
+    width: 70%;
+}
+
 .jumbotron {
     background-color: rgba(186, 186, 186, 0.8);
 }
