@@ -13,6 +13,15 @@ namespace Route66_SKP_SKAL_Assignment {
     public partial class Admin {
         
         /// <summary>
+        /// DATA_GRID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView DATA_GRID;
+        
+        /// <summary>
         /// MONTH_LIST control.
         /// </summary>
         /// <remarks>
@@ -47,15 +56,6 @@ namespace Route66_SKP_SKAL_Assignment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label ERROR_LABEL;
-        
-        /// <summary>
-        /// DATA_GRID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView DATA_GRID;
         
         /// <summary>
         /// INFO_TABLE control.

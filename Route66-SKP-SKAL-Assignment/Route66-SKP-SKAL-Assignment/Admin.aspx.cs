@@ -12,7 +12,7 @@ namespace Route66_SKP_SKAL_Assignment
 {
     public partial class Admin : System.Web.UI.Page
     {
-        string getAllVisitors = "SELECT * FROM kristia1_route66.questions";
+        string getAllVisitors = "SELECT * FROM kristia1_route66.`all-visitors`;";
         public int CurrentSM;
         public int CurrentSY;
 
@@ -23,8 +23,12 @@ namespace Route66_SKP_SKAL_Assignment
             try
             {
                 GetStart();
-                SetDropDowns();
-                InsertDataToTable(sql.GetTableFromDatabase(getAllVisitors));
+                InsertDataToTable(sql.GetSetFromDatabase(getAllVisitors).Tables[0]);
+
+                if (!Page.IsPostBack)
+                {
+                    SetDropDowns();
+                }
             }
             catch (Exception ex)
             {
@@ -32,9 +36,11 @@ namespace Route66_SKP_SKAL_Assignment
             }
         }
 
-        void InsertDataToTable(DataSet set)
+        void InsertDataToTable(DataTable table)
         {
-            DATA_GRID.DataSource = set.Tables["questions"];
+            Debug.WriteLine(table);
+
+            DATA_GRID.DataSource = table;
             DATA_GRID.DataBind();
         }
 

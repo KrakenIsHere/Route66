@@ -27,12 +27,22 @@ namespace Route66_SKP_SKAL_Assignment
         {
             try
             {
+                GetStart();
                 UpdateQuestionOnPage();
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
             }
+        }
+
+        void Test()
+        {
+            string query = "" +
+                "Insert into test (testcol)" +
+                $"values ('Hello this is a Test');";
+
+            sql.SetDataToDatabase(query);
         }
 
         void GetStart()
@@ -55,7 +65,7 @@ namespace Route66_SKP_SKAL_Assignment
             DateTime start = DateTime.Parse($"1 {SM} {SY}");
 
             int monthId = (((date.Year - start.Year) * 12) + date.Month - start.Month) + 1;
-            
+
             int calc = 1;
 
             if (monthId != 1)
@@ -133,7 +143,7 @@ namespace Route66_SKP_SKAL_Assignment
                         }
                     case 2:
                         {
-                            Question_Text1.Text = row["question_TEXT"].ToString();
+                            Question_Text2.Text = row["question_TEXT"].ToString();
 
                             AnswerList2.Items[0].Text = "&nbsp;&nbsp; " + row["question_ANSWER1"].ToString();
                             AnswerList2.Items[1].Text = "&nbsp;&nbsp; " + row["question_ANSWER2"].ToString();
@@ -145,7 +155,7 @@ namespace Route66_SKP_SKAL_Assignment
                         }
                     case 3:
                         {
-                            Question_Text1.Text = row["question_TEXT"].ToString();
+                            Question_Text3.Text = row["question_TEXT"].ToString();
 
                             AnswerList3.Items[0].Text = "&nbsp;&nbsp; " + row["question_ANSWER1"].ToString();
                             AnswerList3.Items[1].Text = "&nbsp;&nbsp; " + row["question_ANSWER2"].ToString();
@@ -180,7 +190,7 @@ namespace Route66_SKP_SKAL_Assignment
             {
                 case 1:
                     {
-                        if (AnswerList1.SelectedIndex + 1 == correctAnswer1)
+                        if ((AnswerList1.SelectedIndex + 1) == correctAnswer1)
                         {
                             result = 1;
                         }
@@ -188,7 +198,7 @@ namespace Route66_SKP_SKAL_Assignment
                     }
                 case 2:
                     {
-                        if (AnswerList2.SelectedIndex + 1 == correctAnswer2)
+                        if ((AnswerList2.SelectedIndex + 1) == correctAnswer2)
                         {
                             result = 1;
                         }
@@ -196,7 +206,7 @@ namespace Route66_SKP_SKAL_Assignment
                     }
                 case 3:
                     {
-                        if (AnswerList3.SelectedIndex + 1 == correctAnswer3)
+                        if ((AnswerList3.SelectedIndex + 1) == correctAnswer3)
                         {
                             result = 1;
                         }
@@ -207,48 +217,89 @@ namespace Route66_SKP_SKAL_Assignment
             return result;
         }
 
-        bool VarifyInputTextboxs()
+        bool VerifyInputTextboxs()
         {
             bool result = false;
 
-            if (!string.IsNullOrWhiteSpace(FIRSTNAME_TEXTBOX.Text))
+            if (AnswerList1.SelectedIndex != -1)
             {
-                if (!string.IsNullOrWhiteSpace(LASTNAME_TEXTBOX.Text))
+                if (AnswerList2.SelectedIndex != -1)
                 {
-                    if (!string.IsNullOrWhiteSpace(EMAIL_TEXTBOX.Text))
+                    if (AnswerList3.SelectedIndex != -1)
                     {
-                        if (EMAIL_TEXTBOX.Text.Contains('@'))
+                        if (!string.IsNullOrWhiteSpace(FIRSTNAME_TEXTBOX.Text))
                         {
-                            if (EMAIL_TEXTBOX.Text.Contains('.'))
+                            if (!string.IsNullOrWhiteSpace(LASTNAME_TEXTBOX.Text))
                             {
-                                result = true;
+                                if (!string.IsNullOrWhiteSpace(EMAIL_TEXTBOX.Text))
+                                {
+                                    if (EMAIL_TEXTBOX.Text.Contains('@'))
+                                    {
+                                        if (EMAIL_TEXTBOX.Text.Contains('.'))
+                                        {
+                                            result = true;
+                                        }
+                                        else
+                                        {
+                                            throw new Exception("The '.' is missing in E-Mail");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        throw new Exception("The '@' is missing in E-Mail");
+                                    }
+                                }
+                                else
+                                {
+                                    throw new Exception("E-Mail is empty");
+                                }
                             }
                             else
                             {
-                                throw new Exception("The '.' is missing in E-Mail");
+                                throw new Exception("Lastname is empty");
                             }
                         }
                         else
                         {
-                            throw new Exception("The '@' is missing in E-Mail");
+                            throw new Exception("Firstname is empty");
                         }
                     }
                     else
                     {
-                        throw new Exception("E-Mail is empty");
+                        throw new Exception("Question 3 is un-answered");
                     }
                 }
                 else
                 {
-                    throw new Exception("Lastname is empty");
+                    throw new Exception("Question 2 is un-answered");
                 }
             }
             else
             {
-                throw new Exception("Firstname is empty");
+                throw new Exception("Question 1 is un-answered");
             }
 
             return result;
+        }
+
+        bool VerifyTicketNotExists(string eMail, int[] questionIDs)
+        {
+            bool verified = false;
+
+            string query = "" +
+                "Select * from kristia1_route66.visitors " +
+                $"Where visitor_EMAIL = {eMail} AND visitor_QUESTION_ID = {questionId1} OR visitor_QUESTION_ID = {questionId2} OR visitor_QUESTION_ID = {questionId3}";
+
+            verified = sql.CheckDataFromDatabase(query);
+
+            if(!verified)
+            {
+                return !verified;
+            }
+            else
+            {
+                throw new Exception("E-Mail already used for these questions");
+            }
         }
 
         void WriteSubmissionError(Exception error)
@@ -265,7 +316,7 @@ namespace Route66_SKP_SKAL_Assignment
 
             string[] ID = DateTime.Now.ToString().Split(' ');
 
-            result = $"{ID[0]}-{ID[1]}-{random.Next(1111, 9999)}";
+            result = $"{ID[0].Replace("-","")}-{ID[1].Replace(":","")}-{random.Next(1111, 9999)}";
 
             return result;
         }
@@ -273,21 +324,51 @@ namespace Route66_SKP_SKAL_Assignment
         void PostVisitToDatabase()
         {
 
-            if (VarifyInputTextboxs())
+            List<int> ids = new List<int>();
+
+            ids.Add(questionId1);
+            ids.Add(questionId2);
+            ids.Add(questionId3);
+
+            if (VerifyInputTextboxs())
             {
-                string ID = CustomIdGen();
+                if (VerifyTicketNotExists(EMAIL_TEXTBOX.Text, ids.ToArray()))
+                {
+                    string ID = CustomIdGen();
 
-                string query = "" +
-                    "INSERT INTO kritia1_route66.visitors (visitor_FIRSTNAME, visitor_LASTNAME, visitor_EMAIL, visitor_CUSTOM-ID, visitor_ANSWER_ID, visitor_QUESTION_ID)" +
-                    $"VALUES {FIRSTNAME_TEXTBOX.Text}, {LASTNAME_TEXTBOX.Text}, {EMAIL_TEXTBOX.Text}, {ID}, {GetSubmissionAnswerID(1)}, {questionId1}" +
-                    "" +
-                    "INSERT INTO kritia1_route66.visitors (visitor_FIRSTNAME, visitor_LASTNAME, visitor_EMAIL, visitor_CUSTOM-ID, visitor_ANSWER_ID, visitor_QUESTION_ID)" +
-                    $"VALUES {FIRSTNAME_TEXTBOX.Text}, {LASTNAME_TEXTBOX.Text}, {EMAIL_TEXTBOX.Text}, {ID}, {GetSubmissionAnswerID(2)}, {questionId2}" +
-                    "" +
-                    "INSERT INTO kritia1_route66.visitors (visitor_FIRSTNAME, visitor_LASTNAME, visitor_EMAIL, visitor_CUSTOM-ID, visitor_ANSWER_ID, visitor_QUESTION_ID)" +
-                    $"VALUES {FIRSTNAME_TEXTBOX.Text}, {LASTNAME_TEXTBOX.Text}, {EMAIL_TEXTBOX.Text}, {ID}, {GetSubmissionAnswerID(3)}, {questionId3}";
+                    // INSERT INTO `kristia1_route66`.`visitors` (`visitor_FIRSTNAME`, `visitor_LASTNAME`, `visitor_EMAIL`, `visitor_CUSTOM-ID`, `visitor_ANSWER_ID`, `visitor_QUESTION_ID`) VALUES ('asdad', 'asdasdas', 'saasdasd', 'asdafsdg', '1', '5');
+                    string[] querys = new string[]
+                    {
+                    //1
+                    "INSERT INTO `kristia1_route66`.`visitors` " +
+                    "(`visitor_FIRSTNAME`, `visitor_LASTNAME`, `visitor_EMAIL`, " +
+                    "`visitor_CUSTOM-ID`, `visitor_ANSWER_ID`, `visitor_QUESTION_ID`) " +
+                    "VALUES " +
+                    $"('{FIRSTNAME_TEXTBOX.Text}', '{LASTNAME_TEXTBOX.Text}', '{EMAIL_TEXTBOX.Text}', " +
+                    $"'{ID}', {GetSubmissionAnswerID(questionId1)}, {questionId1});",
 
-                sql.SetDataToDatabase(query);
+                    //2
+                    "INSERT INTO `kristia1_route66`.`visitors` " +
+                    "(`visitor_FIRSTNAME`, `visitor_LASTNAME`, `visitor_EMAIL`, " +
+                    "`visitor_CUSTOM-ID`, `visitor_ANSWER_ID`, `visitor_QUESTION_ID`) " +
+                    "VALUES " +
+                    $"('{FIRSTNAME_TEXTBOX.Text}', '{LASTNAME_TEXTBOX.Text}', '{EMAIL_TEXTBOX.Text}', " +
+                    $"'{ID}', {GetSubmissionAnswerID(questionId2)}, {questionId2});",
+
+                    //3
+                    "INSERT INTO `kristia1_route66`.`visitors` " +
+                    "(`visitor_FIRSTNAME`, `visitor_LASTNAME`, `visitor_EMAIL`, " +
+                    "`visitor_CUSTOM-ID`, `visitor_ANSWER_ID`, `visitor_QUESTION_ID`) " +
+                    "VALUES " +
+                    $"('{FIRSTNAME_TEXTBOX.Text}', '{LASTNAME_TEXTBOX.Text}', '{EMAIL_TEXTBOX.Text}', " +
+                    $"'{ID}', {GetSubmissionAnswerID(questionId3)}, {questionId3});",
+                    };
+
+                    foreach (string query in querys)
+                    {
+                        sql.SetDataToDatabase(query);
+                    }
+                }
             }
         }
     }

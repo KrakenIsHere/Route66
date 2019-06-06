@@ -4,7 +4,6 @@ body {
     padding-bottom: 20px;
     background-image: url('../assets/images/road.jpg');
     background-position-y: -250px;
-    background-repeat: no-repeat;
 }
 
 /* Wrapping element */
@@ -21,12 +20,8 @@ textarea {
     max-width: 280px;
 }
 
-.QuestionText {
-    font-size: x-large;
-}
-
-.AnswerText {
-    font-size: medium
+.ErrorList {
+    color: darkred;
 }
 
 .jumbotron {
@@ -54,6 +49,10 @@ textarea {
     .body-content {
         padding: 0;
     }
+
+    .QuestionText {
+        font-size: xx-large;
+    }
 }
 
 /* Responsive: Portrait tablets and down */
@@ -66,5 +65,9 @@ textarea {
     .SizeLogoImageWhenSmall {
         width: 50%;
         height: 50%;
+    }
+
+    .QuestionText {
+        font-size: large;
     }
 }

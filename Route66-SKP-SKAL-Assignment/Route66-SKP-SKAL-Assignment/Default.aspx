@@ -23,6 +23,7 @@
 
                 <div class="col-md-8">
                     <div class="jumbotron" style="border-bottom: 0px;">
+                        <p style="font-size:small;">New questions every month</p>
                         <!-- Bootstrap CSS -->
                         <div style="width:100%; height:100%;">
 		
@@ -35,10 +36,12 @@
                                     <!-- Content 1 -->
                                     <div class="item active">
                                         <div class="Main" style="text-align:center">
+                                            <hr />
             
                                             <asp:Label runat="server" CssClass="QuestionText" ID="Question_Text1" Text="Is this a question about route 66?"></asp:Label>
-                                            
-                                            <hr />
+
+                                            <br />
+                                            <br />
 
                                             <asp:RadioButtonList runat="server" ID="AnswerList1" CssClass="AnswerList">
                                                 <asp:ListItem Text="&nbsp;&nbsp; Answer 1"></asp:ListItem>
@@ -51,10 +54,12 @@
                                     <!-- Content 2 -->
                                     <div class="item">
                                         <div class="Main" style="text-align:center">
+                                            <hr />
             
                                             <asp:Label runat="server" CssClass="QuestionText" ID="Question_Text2" Text="Is this another question about route 66?"></asp:Label>
 
-                                            <hr />
+                                            <br />
+                                            <br />
 
                                             <asp:RadioButtonList runat="server" ID="AnswerList2" CssClass="AnswerList">
                                                 <asp:ListItem Text="&nbsp;&nbsp; Answer 4"></asp:ListItem>
@@ -67,10 +72,12 @@
                                     <!-- Content 3 -->
                                     <div class="item">
                                         <div class="Main" style="text-align:center">
+                                            <hr />
             
                                             <asp:Label runat="server" CssClass="QuestionText" ID="Question_Text3" Text="Is this third question about route 66?"></asp:Label>
 
-                                            <hr />
+                                            <br />
+                                            <br />
 
                                             <asp:RadioButtonList runat="server" ID="AnswerList3" CssClass="AnswerList">
                                                 <asp:ListItem Text="&nbsp;&nbsp; Answer 7"></asp:ListItem>
@@ -79,7 +86,6 @@
                                             </asp:RadioButtonList>
                                         </div>
                                     </div>
-
                                 </div>
 
                                 <!-- Previous/Next controls -->
@@ -116,17 +122,20 @@
 
                     <div class="jumbotron">
                         <div class="Second">
-            
-                            <asp:Label runat="server" Text="Firstname: "></asp:Label> <asp:TextBox ID="FIRSTNAME_TEXTBOX" runat="server"></asp:TextBox>
-                            <br />
-                            <br />
-                            <asp:Label runat="server" Text="Lastname: "></asp:Label> <asp:TextBox ID="LASTNAME_TEXTBOX" runat="server"></asp:TextBox>
-                            <br />
-                            <br />
-                            <asp:Label runat="server" Text="E-Mail:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"></asp:Label> <asp:TextBox ID="EMAIL_TEXTBOX" runat="server"></asp:TextBox>
-                            <asp:Button runat="server" CssClass="btn btn-primary pull-right" ID="SubmitBtn" OnClick="SubmitBtn_Clicked" Text="Submit"/>
-                            <br />
-                            <asp:Label runat="server" ID="ERROR_LABEL"></asp:Label>
+                            <asp:UpdatePanel runat="server">
+                                <ContentTemplate>            
+                                    <asp:Label runat="server" Text="Firstname: "></asp:Label> <asp:TextBox ID="FIRSTNAME_TEXTBOX" runat="server"></asp:TextBox>
+                                    <br />
+                                    <br />
+                                    <asp:Label runat="server" Text="Lastname: "></asp:Label> <asp:TextBox ID="LASTNAME_TEXTBOX" runat="server"></asp:TextBox>
+                                    <br />
+                                    <br />
+                                    <asp:Label runat="server" Text="E-Mail:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"></asp:Label> <asp:TextBox ID="EMAIL_TEXTBOX" runat="server"></asp:TextBox>
+                                    <asp:Button runat="server" CssClass="btn btn-primary pull-right" ID="SubmitBtn" OnClick="SubmitBtn_Clicked" Text="Submit"/>
+                                    <br />
+                                    <asp:Label runat="server" ID="ERROR_LABEL" CssClass="ErrorLabel"></asp:Label>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
                         </div>
                     </div>
                 </div>
