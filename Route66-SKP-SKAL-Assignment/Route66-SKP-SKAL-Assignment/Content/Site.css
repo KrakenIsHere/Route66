@@ -29,6 +29,16 @@ textarea {
     width: 70%;
 }
 
+.SendEmailTextbox {
+    max-width: 100%;
+    width: 70%;
+}
+
+.SendEmailTextBody {
+    max-width: 100%;
+    width: 100%;
+}
+
 .jumbotron {
     background-color: rgba(186, 186, 186, 0.8);
 }
@@ -38,8 +48,6 @@ textarea {
     display:flex;
     justify-content:center;
 }
-
-
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 992px) {

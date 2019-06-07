@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -34,6 +35,32 @@ namespace Route66_SKP_SKAL_Assignment
         public int CurrentSY;
 
         SqlHelper sql = new SqlHelper();
+
+        protected void btn_SendMessage_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Label1.Text = "Sending Mail Please Wait...";
+
+                SmtpClient smtpClient = new SmtpClient("mail.kristianksnielsen.com", 587);
+
+                smtpClient.EnableSsl = true;
+                smtpClient.Credentials = new System.Net.NetworkCredential("route66@kristianksnielsen.com", "Hello123");
+                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+                MailMessage mailMessage = new MailMessage(txtFrom.Text, txtTo.Text);
+                mailMessage.Subject = txtSubject.Text;
+                mailMessage.Body = txtBody.Text;
+
+                smtpClient.Send(mailMessage);
+                Label1.Text = "Message sent";
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                Label1.Text = ex.ToString();
+            }
+        }
 
         protected void SearchAllAnswersByMonthBtn(object sender, EventArgs e)
         {
