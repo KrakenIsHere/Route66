@@ -13,31 +13,67 @@ namespace Route66_SKP_SKAL_Assignment {
     public partial class Admin {
         
         /// <summary>
-        /// CORRECT_BY_QUESTION_DROP control.
+        /// QUESTION_TEXT control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList CORRECT_BY_QUESTION_DROP;
+        protected global::System.Web.UI.WebControls.TextBox QUESTION_TEXT;
         
         /// <summary>
-        /// QUESTION_MONTHS_DROP control.
+        /// ANSWER1_TEXT control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList QUESTION_MONTHS_DROP;
+        protected global::System.Web.UI.WebControls.TextBox ANSWER1_TEXT;
         
         /// <summary>
-        /// DATA_GRID control.
+        /// ANSWER2_TEXT control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView DATA_GRID;
+        protected global::System.Web.UI.WebControls.TextBox ANSWER2_TEXT;
+        
+        /// <summary>
+        /// ANSWER3_TEXT control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox ANSWER3_TEXT;
+        
+        /// <summary>
+        /// ANSWER_DROP control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ANSWER_DROP;
+        
+        /// <summary>
+        /// QuestionBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button QuestionBtn;
+        
+        /// <summary>
+        /// QUESTION_ERROR_LABEL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label QUESTION_ERROR_LABEL;
         
         /// <summary>
         /// MONTH_LIST control.
@@ -130,66 +166,30 @@ namespace Route66_SKP_SKAL_Assignment {
         protected global::System.Web.UI.WebControls.Label Label1;
         
         /// <summary>
-        /// QUESTION_TEXT control.
+        /// CORRECT_BY_QUESTION_DROP control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox QUESTION_TEXT;
+        protected global::System.Web.UI.WebControls.DropDownList CORRECT_BY_QUESTION_DROP;
         
         /// <summary>
-        /// ANSWER1_TEXT control.
+        /// QUESTION_MONTHS_DROP control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox ANSWER1_TEXT;
+        protected global::System.Web.UI.WebControls.DropDownList QUESTION_MONTHS_DROP;
         
         /// <summary>
-        /// ANSWER2_TEXT control.
+        /// DATA_GRID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox ANSWER2_TEXT;
-        
-        /// <summary>
-        /// ANSWER3_TEXT control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox ANSWER3_TEXT;
-        
-        /// <summary>
-        /// ANSWER_DROP control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ANSWER_DROP;
-        
-        /// <summary>
-        /// QuestionBtn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button QuestionBtn;
-        
-        /// <summary>
-        /// QUESTION_ERROR_LABEL control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label QUESTION_ERROR_LABEL;
+        protected global::System.Web.UI.WebControls.GridView DATA_GRID;
     }
 }

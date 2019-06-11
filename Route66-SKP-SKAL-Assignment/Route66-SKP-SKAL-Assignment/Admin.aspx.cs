@@ -1,10 +1,13 @@
 ﻿using Route66_SKP_SKAL_Assignment.Scripts.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Configuration;
 using System.Net.Mail;
+using System.Threading;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -34,23 +37,27 @@ namespace Route66_SKP_SKAL_Assignment
         public int CurrentSM;
         public int CurrentSY;
 
-        SqlHelper sql = new SqlHelper();
+        readonly SqlHelper sql = new SqlHelper();
 
-        protected void btn_SendMessage_Click(object sender, EventArgs e)
+        protected void SendMessage_Click(object sender, EventArgs e)
         {
+            SendEmail(txtBody.Text, txtFrom.Text, txtTo.Text, txtSubject.Text);
+        }
+
+        void SendEmail(string body, string from, string to, string sub = "")
+        {
+            Label1.Text = "Sending Mail Please Wait...";
+
+            Thread.Sleep(500);
             try
             {
-                Label1.Text = "Sending Mail Please Wait...";
+                SmtpClient smtpClient = new SmtpClient();
 
-                SmtpClient smtpClient = new SmtpClient("mail.kristianksnielsen.com", 587);
-
-                smtpClient.EnableSsl = true;
-                smtpClient.Credentials = new System.Net.NetworkCredential("route66@kristianksnielsen.com", "Hello123");
-                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-
-                MailMessage mailMessage = new MailMessage(txtFrom.Text, txtTo.Text);
-                mailMessage.Subject = txtSubject.Text;
-                mailMessage.Body = txtBody.Text;
+                MailMessage mailMessage = new MailMessage(from, to)
+                {
+                    Subject = sub,
+                    Body = body
+                };
 
                 smtpClient.Send(mailMessage);
                 Label1.Text = "Message sent";
@@ -148,16 +155,6 @@ namespace Route66_SKP_SKAL_Assignment
 
         void SetDropDowns()
         {
-            string query = "" +
-                "SELECT * FROM kristia1_route66.`questions`";
-
-            var queryRows = sql.GetDataFromDatabase(query);
-
-            foreach (DataRow row in queryRows)
-            {
-                CORRECT_BY_QUESTION_DROP.Items.Add(new ListItem(row["question_ID"].ToString(), row["question_ID"].ToString()));
-            }
-
             QUESTION_MONTHS_DROP.Items.Add(new ListItem("January", "Jan"));
             QUESTION_MONTHS_DROP.Items.Add(new ListItem("February", "Feb"));
             QUESTION_MONTHS_DROP.Items.Add(new ListItem("March", "Mar"));
@@ -192,6 +189,16 @@ namespace Route66_SKP_SKAL_Assignment
             YEAR_LIST.Items.Add(new ListItem($"{CurrentSY}", $"{CurrentSY}"));
             YEAR_LIST.Items.Add(new ListItem($"{CurrentSY + 1}", $"{CurrentSY + 1}"));
             YEAR_LIST.Items.Add(new ListItem($"{CurrentSY + 2}", $"{CurrentSY + 2}"));
+
+            string query = "" +
+                "SELECT * FROM kristia1_route66.`questions`";
+
+            var queryRows = sql.GetDataFromDatabase(query);
+
+            foreach (DataRow row in queryRows)
+            {
+                CORRECT_BY_QUESTION_DROP.Items.Add(new ListItem(row["question_ID"].ToString(), row["question_ID"].ToString()));
+            }
         }
 
         protected void SubmitNewStartBtn(object sender, EventArgs e)
