@@ -62,7 +62,7 @@
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p style="color:white; text-align:center">&copy; <%: DateTime.Now.Year %> - Kristian K. S. Nielsen & Minik G. Lambrecht</p>
+                <p style="color:white; text-align:center">&copy; <%: DateTime.Now.Year %> - Kristian K. S. Nielsen</p>
             </footer>
         </div>
 
