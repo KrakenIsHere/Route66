@@ -29,6 +29,10 @@ textarea {
     width: 70%;
 }
 
+.UserSubTextbox {
+    width: 100%;
+}
+
 .SendEmailTextbox {
     max-width: 100%;
     width: 70%;
@@ -47,6 +51,10 @@ textarea {
     text-align:center;
     display:flex;
     justify-content:center;
+}
+
+.Hide {
+    display: none;
 }
 
 /* Responsive: Portrait tablets and up */

@@ -1,4 +1,5 @@
-﻿using Route66_SKP_SKAL_Assignment.Scripts.Helpers;
+﻿using MySql.Web.Security;
+using Route66_SKP_SKAL_Assignment.Scripts.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,6 +17,8 @@ namespace Route66_SKP_SKAL_Assignment
 {
     public partial class Admin : System.Web.UI.Page
     {
+        readonly CalculationHelper calculations = new CalculationHelper();
+
         readonly string getAllVisitors = "SELECT * FROM kristia1_route66.`all-visitors`;";//Used as is
 
         readonly string getShowOnlyCorrect = "" + //Used as is
@@ -34,10 +37,29 @@ namespace Route66_SKP_SKAL_Assignment
             "SELECT * FROM `kristia1_route66`.`all-visitors`" +
             "WHERE `CUSTOM-ID` LIKE '%:%' ";
 
+
+
+        int currentMQ1ID;
+        int currentMQ2ID;
+        int currentMQ3ID;
+
         public int CurrentSM;
         public int CurrentSY;
 
         readonly SqlHelper sql = new SqlHelper();
+        readonly MySQLMembershipProvider provider = new MySQLMembershipProvider();
+
+        protected void SubmitUserBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Web.Security.Membership.CreateUser(USERNAME_TEXT.Text, PASSWORD_TEXT.Text, EMAIL_TEXT.Text);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
 
         protected void SendMessage_Click(object sender, EventArgs e)
         {
@@ -131,19 +153,27 @@ namespace Route66_SKP_SKAL_Assignment
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            try
+            if (Session["username"] == null)
             {
-                GetStart();
-                InsertDataToTable(sql.GetSetFromDatabase(getAllVisitors).Tables[0]);
-
-                if (!Page.IsPostBack)
+                try
                 {
-                    SetDropDowns();
+                    GetStart();
+                    InsertDataToTable(sql.GetSetFromDatabase(getAllVisitors).Tables[0]);
+                    calculations.GetMonthIdForQuestion(CurrentSM, CurrentSY);
+
+                    if (!Page.IsPostBack)
+                    {
+                        SetDropDowns();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Debug.WriteLine(ex);
+                Response.Redirect("/Login");
             }
         }
 

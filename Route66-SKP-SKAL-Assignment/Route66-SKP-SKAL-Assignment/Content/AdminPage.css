@@ -1,3 +1,4 @@
 ﻿body {
-    background-color:lightgray;
+    background-color: lightgray !important;
+    background-image: none !important;
 }

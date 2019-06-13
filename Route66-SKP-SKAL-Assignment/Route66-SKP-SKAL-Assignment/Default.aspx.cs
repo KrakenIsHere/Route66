@@ -13,6 +13,7 @@ namespace Route66_SKP_SKAL_Assignment
     public partial class _Default : Page
     {
         readonly SqlHelper sql = new SqlHelper();
+        readonly CalculationHelper calculations = new CalculationHelper();
 
         int startMonth = 6;
         int startYear = 2019;
@@ -57,32 +58,9 @@ namespace Route66_SKP_SKAL_Assignment
             startYear = int.Parse(rows[0]["info_SY"].ToString());
         }
 
-        int[] GetMonthIdForQuestion(int SM, int SY)
-        {
-            int[] resultId = new int[3];
-
-            DateTime date = DateTime.Now;
-            DateTime start = DateTime.Parse($"1 {SM} {SY}");
-
-            int monthId = (((date.Year - start.Year) * 12) + date.Month - start.Month) + 1;
-
-            int calc = 1;
-
-            if (monthId != 1)
-            {
-                calc = (2 * monthId);
-            }
-
-            resultId[0] = 0 + calc;
-            resultId[1] = 1 + calc;
-            resultId[2] = 2 + calc;
-
-            return resultId;
-        }
-
         DataRow[] GetQuestionFromDatabase()
         {
-            int[] monthIds = GetMonthIdForQuestion(startMonth, startYear);
+            int[] monthIds = calculations.GetMonthIdForQuestion(startMonth, startYear);
 
             List<DataRow> rowList = new List<DataRow>();
 

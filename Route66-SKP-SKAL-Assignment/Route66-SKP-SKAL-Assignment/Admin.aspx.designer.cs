@@ -13,6 +13,33 @@ namespace Route66_SKP_SKAL_Assignment {
     public partial class Admin {
         
         /// <summary>
+        /// CORRECT_BY_QUESTION_DROP control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList CORRECT_BY_QUESTION_DROP;
+        
+        /// <summary>
+        /// QUESTION_MONTHS_DROP control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList QUESTION_MONTHS_DROP;
+        
+        /// <summary>
+        /// DATA_GRID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView DATA_GRID;
+        
+        /// <summary>
         /// QUESTION_TEXT control.
         /// </summary>
         /// <remarks>
@@ -166,30 +193,48 @@ namespace Route66_SKP_SKAL_Assignment {
         protected global::System.Web.UI.WebControls.Label Label1;
         
         /// <summary>
-        /// CORRECT_BY_QUESTION_DROP control.
+        /// USERNAME_TEXT control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList CORRECT_BY_QUESTION_DROP;
+        protected global::System.Web.UI.WebControls.TextBox USERNAME_TEXT;
         
         /// <summary>
-        /// QUESTION_MONTHS_DROP control.
+        /// PASSWORD_TEXT control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList QUESTION_MONTHS_DROP;
+        protected global::System.Web.UI.WebControls.TextBox PASSWORD_TEXT;
         
         /// <summary>
-        /// DATA_GRID control.
+        /// EMAIL_TEXT control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView DATA_GRID;
+        protected global::System.Web.UI.WebControls.TextBox EMAIL_TEXT;
+        
+        /// <summary>
+        /// NewUserBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button NewUserBtn;
+        
+        /// <summary>
+        /// USERERROR_LABEL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label USERERROR_LABEL;
     }
 }

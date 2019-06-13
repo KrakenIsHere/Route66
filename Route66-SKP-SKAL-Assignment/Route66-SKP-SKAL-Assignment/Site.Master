@@ -52,6 +52,7 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav pull-right">
                         <li><a runat="server" href="~/Admin">Admin</a></li>
+                        <li><asp:Panel runat="server" ID="LOGIN_PANEL" CssClass="Hide"><a onserverclick="Logout_Click">Logout</a></asp:Panel></li>
                     </ul>
                 </div>
             </div>
