@@ -1,28 +1,26 @@
-﻿using Route66_SKP_SKAL_Assignment.Scripts.Helpers;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data;
-using System.Diagnostics;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Diagnostics;
+using System.Globalization;
+using System.Collections.Generic;
+using Route66_SKP_SKAL_Assignment.Scripts.Helpers;
 
 namespace Route66_SKP_SKAL_Assignment
 {
-    public partial class _Default : Page
+    public partial class Default : Page
     {
-        readonly SqlHelper sql = new SqlHelper();
-        readonly CalculationHelper calculations = new CalculationHelper();
+        private readonly SqlHelper _sql = new SqlHelper();
 
-        int startMonth = 6;
-        int startYear = 2019;
-        int correctAnswer1 = 0;
-        int correctAnswer2 = 0;
-        int correctAnswer3 = 0;
-        int questionId1;
-        int questionId2;
-        int questionId3;
+        private int _startMonth = 6;
+        private int _startYear = 2019;
+        private int _correctAnswer1;
+        private int _correctAnswer2;
+        private int _correctAnswer3;
+        private int _questionId1;
+        private int _questionId2;
+        private int _questionId3;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -37,34 +35,23 @@ namespace Route66_SKP_SKAL_Assignment
             }
         }
 
-        void Test()
+        private void GetStart()
         {
-            string query = "" +
-                "Insert into test (testcol)" +
-                $"values ('Hello this is a Test');";
+            var query = "" +
+                        "Select * from kristia1_route66.startinfo " +
+                        "Where info_ID = 1";
 
-            sql.SetDataToDatabase(query);
+            var rows = _sql.GetDataFromDatabase(query);
+
+            _startMonth = int.Parse(rows[0]["info_SM"].ToString());
+            _startYear = int.Parse(rows[0]["info_SY"].ToString());
         }
 
-        void GetStart()
+        private IEnumerable<DataRow> GetQuestionFromDatabase()
         {
-            string query = "" +
-                "Select * from kristia1_route66.startinfo " +
-                $"Where info_ID = 1";
+            var monthIds = CalculationHelper.GetMonthIdForQuestion(_startMonth, _startYear);
 
-            DataRow[] rows = sql.GetDataFromDatabase(query);
-
-            startMonth = int.Parse(rows[0]["info_SM"].ToString());
-            startYear = int.Parse(rows[0]["info_SY"].ToString());
-        }
-
-        DataRow[] GetQuestionFromDatabase()
-        {
-            int[] monthIds = calculations.GetMonthIdForQuestion(startMonth, startYear);
-
-            List<DataRow> rowList = new List<DataRow>();
-
-            string[] querys = new string[]
+            var queries = new[]
             {
                 "" +
                 "Select * from kristia1_route66.questions " +
@@ -79,70 +66,64 @@ namespace Route66_SKP_SKAL_Assignment
                 $"Where question_ID = {monthIds[2].ToString()}"
             };
 
-            foreach (string query in querys)
-            {
-                var queryRows = sql.GetDataFromDatabase(query);
-
-                foreach (DataRow row in queryRows)
-                {
-                    rowList.Add(row);
-                }
-
-            }
-
-            DataRow[] rows = rowList.ToArray();
+            var rows = queries.SelectMany(query => _sql.GetDataFromDatabase(query)).ToArray();
 
             return rows;
         }
 
-        void UpdateQuestionOnPage()
+        private void UpdateQuestionOnPage()
         {
             var rows = GetQuestionFromDatabase();
 
-            int i = 0;
+            var i = 0;
 
-            foreach (DataRow row in rows)
+            foreach (var row in rows)
             {
                 i++;
 
                 switch (i)
                 {
                     case 1:
-                        {
-                            Question_Text1.Text = row["question_TEXT"].ToString();
+                    {
+                        Question_Text1.Text = row["question_TEXT"].ToString();
 
-                            AnswerList1.Items[0].Text = "&nbsp;&nbsp; " + row["question_ANSWER1"].ToString();
-                            AnswerList1.Items[1].Text = "&nbsp;&nbsp; " + row["question_ANSWER2"].ToString();
-                            AnswerList1.Items[2].Text = "&nbsp;&nbsp; " + row["question_ANSWER3"].ToString();
+                        AnswerList1.Items[0].Text = @"&nbsp;&nbsp; " + row["question_ANSWER1"];
+                        AnswerList1.Items[1].Text = @"&nbsp;&nbsp; " + row["question_ANSWER2"];
+                        AnswerList1.Items[2].Text = @"&nbsp;&nbsp; " + row["question_ANSWER3"];
 
-                            correctAnswer1 = int.Parse(row["question_CORRECT-ANSWER"].ToString());
-                            questionId1 = int.Parse(row["question_ID"].ToString());
-                            break;
-                        }
+                        _correctAnswer1 = int.Parse(row["question_CORRECT-ANSWER"].ToString());
+                        _questionId1 = int.Parse(row["question_ID"].ToString());
+                        break;
+                    }
+
                     case 2:
-                        {
-                            Question_Text2.Text = row["question_TEXT"].ToString();
+                    {
+                        Question_Text2.Text = row["question_TEXT"].ToString();
 
-                            AnswerList2.Items[0].Text = "&nbsp;&nbsp; " + row["question_ANSWER1"].ToString();
-                            AnswerList2.Items[1].Text = "&nbsp;&nbsp; " + row["question_ANSWER2"].ToString();
-                            AnswerList2.Items[2].Text = "&nbsp;&nbsp; " + row["question_ANSWER3"].ToString();
+                        AnswerList2.Items[0].Text = @"&nbsp;&nbsp; " + row["question_ANSWER1"];
+                        AnswerList2.Items[1].Text = @"&nbsp;&nbsp; " + row["question_ANSWER2"];
+                        AnswerList2.Items[2].Text = @"&nbsp;&nbsp; " + row["question_ANSWER3"];
 
-                            correctAnswer2 = int.Parse(row["question_CORRECT-ANSWER"].ToString());
-                            questionId2 = int.Parse(row["question_ID"].ToString());
-                            break;
-                        }
+                        _correctAnswer2 = int.Parse(row["question_CORRECT-ANSWER"].ToString());
+                        _questionId2 = int.Parse(row["question_ID"].ToString());
+                        break;
+                    }
+
                     case 3:
-                        {
-                            Question_Text3.Text = row["question_TEXT"].ToString();
+                    {
+                        Question_Text3.Text = row["question_TEXT"].ToString();
 
-                            AnswerList3.Items[0].Text = "&nbsp;&nbsp; " + row["question_ANSWER1"].ToString();
-                            AnswerList3.Items[1].Text = "&nbsp;&nbsp; " + row["question_ANSWER2"].ToString();
-                            AnswerList3.Items[2].Text = "&nbsp;&nbsp; " + row["question_ANSWER3"].ToString();
+                        AnswerList3.Items[0].Text = @"&nbsp;&nbsp; " + row["question_ANSWER1"];
+                        AnswerList3.Items[1].Text = @"&nbsp;&nbsp; " + row["question_ANSWER2"];
+                        AnswerList3.Items[2].Text = @"&nbsp;&nbsp; " + row["question_ANSWER3"];
 
-                            correctAnswer3 = int.Parse(row["question_CORRECT-ANSWER"].ToString());
-                            questionId3 = int.Parse(row["question_ID"].ToString());
-                            break;
-                        }
+                        _correctAnswer3 = int.Parse(row["question_CORRECT-ANSWER"].ToString());
+                        _questionId3 = int.Parse(row["question_ID"].ToString());
+                        break;
+                    }
+
+                    default:
+                        return;
                 }
             }
         }
@@ -160,193 +141,150 @@ namespace Route66_SKP_SKAL_Assignment
             }
         }
 
-        int GetSubmissionAnswerID(int questionNum)
+        private int GetSubmissionAnswerId(int questionNum)
         {
-            int result = 2;
+            var result = 2;
 
             switch (questionNum)
             {
                 case 1:
+                {
+                    if ((AnswerList1.SelectedIndex + 1) == _correctAnswer1)
                     {
-                        if ((AnswerList1.SelectedIndex + 1) == correctAnswer1)
-                        {
-                            result = 1;
-                        }
-                        break;
+                        result = 1;
                     }
+
+                    break;
+                }
+
                 case 2:
+                {
+                    if ((AnswerList2.SelectedIndex + 1) == _correctAnswer2)
                     {
-                        if ((AnswerList2.SelectedIndex + 1) == correctAnswer2)
-                        {
-                            result = 1;
-                        }
-                        break;
+                        result = 1;
                     }
+
+                    break;
+                }
+
                 case 3:
+                {
+                    if ((AnswerList3.SelectedIndex + 1) == _correctAnswer3)
                     {
-                        if ((AnswerList3.SelectedIndex + 1) == correctAnswer3)
-                        {
-                            result = 1;
-                        }
-                        break;
+                        result = 1;
                     }
+
+                    break;
+                }
+
+                default:
+                    return 0;
             }
 
             return result;
         }
 
-        bool VerifyInputTextboxs()
+        private bool VerifyInputTextboxes()
         {
-            bool result = false;
+            if (AnswerList1.SelectedIndex == -1) throw new Exception("Question 1 is un-answered");
 
-            if (AnswerList1.SelectedIndex != -1)
+            if (AnswerList2.SelectedIndex == -1) throw new Exception("Question 2 is un-answered");
+
+            if (AnswerList3.SelectedIndex == -1) throw new Exception("Question 3 is un-answered");
+
+            if (string.IsNullOrWhiteSpace(FIRSTNAME_TEXTBOX.Text))
+                throw new Exception("Firstname is empty");
+
+            if (string.IsNullOrWhiteSpace(LASTNAME_TEXTBOX.Text))
+                throw new Exception("Lastname is empty");
+
+            if (string.IsNullOrWhiteSpace(EMAIL_TEXTBOX.Text))
+                throw new Exception("E-Mail is empty");
+
+            if (!EMAIL_TEXTBOX.Text.Contains('@'))
+                throw new Exception("The '@' is missing in E-Mail");
+
+            if (EMAIL_TEXTBOX.Text.Contains('.'))
             {
-                if (AnswerList2.SelectedIndex != -1)
-                {
-                    if (AnswerList3.SelectedIndex != -1)
-                    {
-                        if (!string.IsNullOrWhiteSpace(FIRSTNAME_TEXTBOX.Text))
-                        {
-                            if (!string.IsNullOrWhiteSpace(LASTNAME_TEXTBOX.Text))
-                            {
-                                if (!string.IsNullOrWhiteSpace(EMAIL_TEXTBOX.Text))
-                                {
-                                    if (EMAIL_TEXTBOX.Text.Contains('@'))
-                                    {
-                                        if (EMAIL_TEXTBOX.Text.Contains('.'))
-                                        {
-                                            result = true;
-                                        }
-                                        else
-                                        {
-                                            throw new Exception("The '.' is missing in E-Mail");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        throw new Exception("The '@' is missing in E-Mail");
-                                    }
-                                }
-                                else
-                                {
-                                    throw new Exception("E-Mail is empty");
-                                }
-                            }
-                            else
-                            {
-                                throw new Exception("Lastname is empty");
-                            }
-                        }
-                        else
-                        {
-                            throw new Exception("Firstname is empty");
-                        }
-                    }
-                    else
-                    {
-                        throw new Exception("Question 3 is un-answered");
-                    }
-                }
-                else
-                {
-                    throw new Exception("Question 2 is un-answered");
-                }
-            }
-            else
-            {
-                throw new Exception("Question 1 is un-answered");
+                return true;
             }
 
-            return result;
+            throw new Exception("The '.' is missing in E-Mail");
         }
 
-        bool VerifyTicketNotExists(string eMail, int[] questionIDs)
+        private bool VerifyTicketNotExists(string eMail, IReadOnlyList<int> questionIDs)
         {
-            bool verified = false;
+            var query = "" +
+                        "Select * from kristia1_route66.visitors " +
+                        $"Where visitor_EMAIL = {eMail} AND visitor_QUESTION_ID = {questionIDs[0]} OR visitor_QUESTION_ID = {questionIDs[1]} OR visitor_QUESTION_ID = {questionIDs[2]}";
 
-            string query = "" +
-                "Select * from kristia1_route66.visitors " +
-                $"Where visitor_EMAIL = {eMail} AND visitor_QUESTION_ID = {questionId1} OR visitor_QUESTION_ID = {questionId2} OR visitor_QUESTION_ID = {questionId3}";
+            var verified = _sql.CheckDataFromDatabase(query);
 
-            verified = sql.CheckDataFromDatabase(query);
-
-            if(!verified)
+            if (!verified)
             {
-                return !verified;
+                return true;
             }
-            else
-            {
-                throw new Exception("E-Mail already used for these questions");
-            }
+
+            throw new Exception("E-Mail already used for these questions");
         }
 
-        void WriteSubmissionError(Exception error)
+        private void WriteSubmissionError(Exception error)
         {
             Debug.WriteLine(error);
             ERROR_LABEL.Text = error.Message;
         }
 
-        string CustomIdGen()
+        private static string CustomIdGen()
         {
-            Random random = new Random();
+            var random = new Random();
 
-            string result = "";
+            var id = DateTime.Now.ToString(CultureInfo.CurrentCulture).Split(' ');
 
-            string[] ID = DateTime.Now.ToString().Split(' ');
-
-            result = $"{ID[0].Replace("-","")}-{ID[1].Replace(":","")}-{random.Next(1111, 9999)}";
+            var result = $"{id[0].Replace("-", "")}-{id[1].Replace(":", "")}-{random.Next(1111, 9999)}";
 
             return result;
         }
 
-        void PostVisitToDatabase()
+        private void PostVisitToDatabase()
         {
+            var ids = new List<int> {_questionId1, _questionId2, _questionId3};
 
-            List<int> ids = new List<int>();
 
-            ids.Add(questionId1);
-            ids.Add(questionId2);
-            ids.Add(questionId3);
+            if (!VerifyInputTextboxes()) return;
+            if (!VerifyTicketNotExists(EMAIL_TEXTBOX.Text, ids.ToArray())) return;
+            var id = CustomIdGen();
 
-            if (VerifyInputTextboxs())
+            // INSERT INTO `kristia1_route66`.`visitors` (`visitor_FIRSTNAME`, `visitor_LASTNAME`, `visitor_EMAIL`, `visitor_CUSTOM-ID`, `visitor_ANSWER_ID`, `visitor_QUESTION_ID`) VALUES ('kim', 'johnson', 'kimjohnson804@gmail.com', 'Ao4tUX', '1', '5');
+            var queries = new[]
             {
-                if (VerifyTicketNotExists(EMAIL_TEXTBOX.Text, ids.ToArray()))
-                {
-                    string ID = CustomIdGen();
+                //1
+                "INSERT INTO `kristia1_route66`.`visitors` " +
+                "(`visitor_FIRSTNAME`, `visitor_LASTNAME`, `visitor_EMAIL`, " +
+                "`visitor_CUSTOM-ID`, `visitor_ANSWER_ID`, `visitor_QUESTION_ID`) " +
+                "VALUES " +
+                $"('{FIRSTNAME_TEXTBOX.Text}', '{LASTNAME_TEXTBOX.Text}', '{EMAIL_TEXTBOX.Text}', " +
+                $"'{id}', {GetSubmissionAnswerId(_questionId1)}, {_questionId1});",
 
-                    // INSERT INTO `kristia1_route66`.`visitors` (`visitor_FIRSTNAME`, `visitor_LASTNAME`, `visitor_EMAIL`, `visitor_CUSTOM-ID`, `visitor_ANSWER_ID`, `visitor_QUESTION_ID`) VALUES ('asdad', 'asdasdas', 'saasdasd', 'asdafsdg', '1', '5');
-                    string[] querys = new string[]
-                    {
-                    //1
-                    "INSERT INTO `kristia1_route66`.`visitors` " +
-                    "(`visitor_FIRSTNAME`, `visitor_LASTNAME`, `visitor_EMAIL`, " +
-                    "`visitor_CUSTOM-ID`, `visitor_ANSWER_ID`, `visitor_QUESTION_ID`) " +
-                    "VALUES " +
-                    $"('{FIRSTNAME_TEXTBOX.Text}', '{LASTNAME_TEXTBOX.Text}', '{EMAIL_TEXTBOX.Text}', " +
-                    $"'{ID}', {GetSubmissionAnswerID(questionId1)}, {questionId1});",
+                //2
+                "INSERT INTO `kristia1_route66`.`visitors` " +
+                "(`visitor_FIRSTNAME`, `visitor_LASTNAME`, `visitor_EMAIL`, " +
+                "`visitor_CUSTOM-ID`, `visitor_ANSWER_ID`, `visitor_QUESTION_ID`) " +
+                "VALUES " +
+                $"('{FIRSTNAME_TEXTBOX.Text}', '{LASTNAME_TEXTBOX.Text}', '{EMAIL_TEXTBOX.Text}', " +
+                $"'{id}', {GetSubmissionAnswerId(_questionId2)}, {_questionId2});",
 
-                    //2
-                    "INSERT INTO `kristia1_route66`.`visitors` " +
-                    "(`visitor_FIRSTNAME`, `visitor_LASTNAME`, `visitor_EMAIL`, " +
-                    "`visitor_CUSTOM-ID`, `visitor_ANSWER_ID`, `visitor_QUESTION_ID`) " +
-                    "VALUES " +
-                    $"('{FIRSTNAME_TEXTBOX.Text}', '{LASTNAME_TEXTBOX.Text}', '{EMAIL_TEXTBOX.Text}', " +
-                    $"'{ID}', {GetSubmissionAnswerID(questionId2)}, {questionId2});",
+                //3
+                "INSERT INTO `kristia1_route66`.`visitors` " +
+                "(`visitor_FIRSTNAME`, `visitor_LASTNAME`, `visitor_EMAIL`, " +
+                "`visitor_CUSTOM-ID`, `visitor_ANSWER_ID`, `visitor_QUESTION_ID`) " +
+                "VALUES " +
+                $"('{FIRSTNAME_TEXTBOX.Text}', '{LASTNAME_TEXTBOX.Text}', '{EMAIL_TEXTBOX.Text}', " +
+                $"'{id}', {GetSubmissionAnswerId(_questionId3)}, {_questionId3});",
+            };
 
-                    //3
-                    "INSERT INTO `kristia1_route66`.`visitors` " +
-                    "(`visitor_FIRSTNAME`, `visitor_LASTNAME`, `visitor_EMAIL`, " +
-                    "`visitor_CUSTOM-ID`, `visitor_ANSWER_ID`, `visitor_QUESTION_ID`) " +
-                    "VALUES " +
-                    $"('{FIRSTNAME_TEXTBOX.Text}', '{LASTNAME_TEXTBOX.Text}', '{EMAIL_TEXTBOX.Text}', " +
-                    $"'{ID}', {GetSubmissionAnswerID(questionId3)}, {questionId3});",
-                    };
-
-                    foreach (string query in querys)
-                    {
-                        sql.SetDataToDatabase(query);
-                    }
-                }
+            foreach (var query in queries)
+            {
+                _sql.SetDataToDatabase(query);
             }
         }
     }

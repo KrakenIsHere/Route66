@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Route 66" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Route66_SKP_SKAL_Assignment._Default" %>
+﻿<%@ Page Title="Route 66" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Route66_SKP_SKAL_Assignment.Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -22,7 +22,7 @@
 
 
                 <div class="col-md-8">
-                    <div class="jumbotron" style="border-bottom: 0px;">
+                    <div class="jumbotron" style="border-bottom: 0;">
                         <p style="font-size:small;">New questions every month</p>
                         <!-- Bootstrap CSS -->
                         <div style="width:100%; height:100%;">
@@ -35,7 +35,7 @@
 
                                     <!-- Content 1 -->
                                     <div class="item active">
-                                        <div class="Main" style="text-align:center">
+                                        <div style="text-align:center">
                                             <hr />
             
                                             <asp:Label runat="server" CssClass="QuestionText" ID="Question_Text1" Text="Is this a question about route 66?"></asp:Label>
@@ -53,7 +53,7 @@
 
                                     <!-- Content 2 -->
                                     <div class="item">
-                                        <div class="Main" style="text-align:center">
+                                        <div style="text-align:center">
                                             <hr />
             
                                             <asp:Label runat="server" CssClass="QuestionText" ID="Question_Text2" Text="Is this another question about route 66?"></asp:Label>
@@ -71,7 +71,7 @@
 
                                     <!-- Content 3 -->
                                     <div class="item">
-                                        <div class="Main" style="text-align:center">
+                                        <div  style="text-align:center">
                                             <hr />
             
                                             <asp:Label runat="server" CssClass="QuestionText" ID="Question_Text3" Text="Is this third question about route 66?"></asp:Label>
@@ -100,28 +100,23 @@
 
                             </div>
                         </div>
-		
-                        <!-- jQuery library -->
-                        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-                        <!-- Bootstrap JS -->
-                        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
                         <!-- Initialize Bootstrap functionality -->
                         <script>
                             // Initialize tooltip component
-                            $(function () {
-                                $('[data-toggle="tooltip"]').tooltip()
-                            })
+                            $(function() {
+                                $('[data-toggle="tooltip"]').tooltip();
+                            });
 
                             // Initialize popover component
-                            $(function () {
-                                $('[data-toggle="popover"]').popover()
-                            })
+                            $(function() {
+                                $('[data-toggle="popover"]').popover();
+                            });
                         </script>
                     </div>
 
                     <div class="jumbotron">
-                        <div class="Second">
+                        <div>
                             <asp:UpdatePanel runat="server">
                                 <ContentTemplate>            
                                     <asp:Label runat="server" Text="Firstname: "></asp:Label> <asp:TextBox ID="FIRSTNAME_TEXTBOX" runat="server"></asp:TextBox>
@@ -151,7 +146,7 @@
                     <br />
                     <br />
                     <br />
-                    <img src="Assets/Images/Logo.png" style="height: 100%; width: 100%"/>
+                    <img src="Assets/Images/Logo.png" style="height: 100%; width: 100%" alt="Logo"/>
                 </div>
             </div>
         </ContentTemplate>

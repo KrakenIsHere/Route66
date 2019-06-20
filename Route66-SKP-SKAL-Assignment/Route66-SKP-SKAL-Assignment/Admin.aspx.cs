@@ -1,25 +1,18 @@
-﻿using MySql.Web.Security;
-using Route66_SKP_SKAL_Assignment.Scripts.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System;
 using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Net.Configuration;
+using System.Web.UI;
 using System.Net.Mail;
 using System.Threading;
-using System.Web;
-using System.Web.UI;
+using System.Diagnostics;
+using System.Web.Security;
 using System.Web.UI.WebControls;
+using Route66_SKP_SKAL_Assignment.Scripts.Helpers;
 
 namespace Route66_SKP_SKAL_Assignment
 {
-    public partial class Admin : System.Web.UI.Page
+    public partial class Admin : Page
     {
-        readonly CalculationHelper calculations = new CalculationHelper();
-
-        readonly string getAllVisitors = "SELECT * FROM kristia1_route66.`all-visitors`;";//Used as is
+        private const string GetAllVisitors = "SELECT * FROM kristia1_route66.`all-visitors`;"; //Used as is
 
         readonly string getShowOnlyCorrect = "" + //Used as is
             "SELECT * FROM kristia1_route66.`all-visitors`" +
@@ -38,22 +31,20 @@ namespace Route66_SKP_SKAL_Assignment
             "WHERE `CUSTOM-ID` LIKE '%:%' ";
 
 
+        //private int _currentMq1Id;
+        //private int _currentMq2Id;
+        //private int _currentMq3Id;
 
-        int currentMQ1ID;
-        int currentMQ2ID;
-        int currentMQ3ID;
+        private int _currentSm;
+        private int _currentSy;
 
-        public int CurrentSM;
-        public int CurrentSY;
-
-        readonly SqlHelper sql = new SqlHelper();
-        readonly MySQLMembershipProvider provider = new MySQLMembershipProvider();
+        private readonly SqlHelper _sql = new SqlHelper();
 
         protected void SubmitUserBtn_Click(object sender, EventArgs e)
         {
             try
             {
-                System.Web.Security.Membership.CreateUser(USERNAME_TEXT.Text, PASSWORD_TEXT.Text, EMAIL_TEXT.Text);
+                Membership.CreateUser(USERNAME_TEXT.Text, PASSWORD_TEXT.Text, EMAIL_TEXT.Text);
             }
             catch (Exception ex)
             {
@@ -66,23 +57,23 @@ namespace Route66_SKP_SKAL_Assignment
             SendEmail(txtBody.Text, txtFrom.Text, txtTo.Text, txtSubject.Text);
         }
 
-        void SendEmail(string body, string from, string to, string sub = "")
+        private void SendEmail(string body, string from, string to, string sub = "")
         {
-            Label1.Text = "Sending Mail Please Wait...";
+            Label1.Text = @"Sending Mail Please Wait...";
 
             Thread.Sleep(500);
             try
             {
-                SmtpClient smtpClient = new SmtpClient();
+                var smtpClient = new SmtpClient();
 
-                MailMessage mailMessage = new MailMessage(from, to)
+                var mailMessage = new MailMessage(from, to)
                 {
                     Subject = sub,
                     Body = body
                 };
 
                 smtpClient.Send(mailMessage);
-                Label1.Text = "Message sent";
+                Label1.Text = @"Message sent";
             }
             catch (Exception ex)
             {
@@ -95,7 +86,7 @@ namespace Route66_SKP_SKAL_Assignment
         {
             try
             {
-                InsertDataToTable(sql.GetSetFromDatabase(getShowOnlyFromMonth.Replace(":", QUESTION_MONTHS_DROP.SelectedValue)).Tables[0]);
+                InsertDataToTable(_sql.GetSetFromDatabase(getShowOnlyFromMonth.Replace(":", QUESTION_MONTHS_DROP.SelectedValue)).Tables[0]);
             }
             catch (Exception ex)
             {
@@ -107,7 +98,7 @@ namespace Route66_SKP_SKAL_Assignment
         {
             try
             {
-                InsertDataToTable(sql.GetSetFromDatabase(getShowOnlyFromQuestion + CORRECT_BY_QUESTION_DROP.SelectedValue).Tables[0]);
+                InsertDataToTable(_sql.GetSetFromDatabase(getShowOnlyFromQuestion + CORRECT_BY_QUESTION_DROP.SelectedValue).Tables[0]);
             }
             catch (Exception ex)
             {
@@ -119,7 +110,7 @@ namespace Route66_SKP_SKAL_Assignment
         {
             try
             {
-                InsertDataToTable(sql.GetSetFromDatabase(getShowOnlyCorrectFromQuestion + CORRECT_BY_QUESTION_DROP.SelectedValue).Tables[0]);
+                InsertDataToTable(_sql.GetSetFromDatabase(getShowOnlyCorrectFromQuestion + CORRECT_BY_QUESTION_DROP.SelectedValue).Tables[0]);
             }
             catch (Exception ex)
             {
@@ -131,7 +122,7 @@ namespace Route66_SKP_SKAL_Assignment
         {
             try
             {
-                InsertDataToTable(sql.GetSetFromDatabase(getShowOnlyCorrect).Tables[0]);
+                InsertDataToTable(_sql.GetSetFromDatabase(getShowOnlyCorrect).Tables[0]);
             }
             catch (Exception ex)
             {
@@ -143,7 +134,7 @@ namespace Route66_SKP_SKAL_Assignment
         {
             try
             {
-                InsertDataToTable(sql.GetSetFromDatabase(getAllVisitors).Tables[0]);
+                InsertDataToTable(_sql.GetSetFromDatabase(GetAllVisitors).Tables[0]);
             }
             catch (Exception ex)
             {
@@ -158,8 +149,8 @@ namespace Route66_SKP_SKAL_Assignment
                 try
                 {
                     GetStart();
-                    InsertDataToTable(sql.GetSetFromDatabase(getAllVisitors).Tables[0]);
-                    calculations.GetMonthIdForQuestion(CurrentSM, CurrentSY);
+                    InsertDataToTable(_sql.GetSetFromDatabase(GetAllVisitors).Tables[0]);
+                    CalculationHelper.GetMonthIdForQuestion(_currentSm, _currentSy);
 
                     if (!Page.IsPostBack)
                     {
@@ -173,17 +164,17 @@ namespace Route66_SKP_SKAL_Assignment
             }
             else
             {
-                Response.Redirect("/Login");
+                Response.RedirectToRoute("LoginPanel");
             }
         }
 
-        void InsertDataToTable(DataTable table)
+        private void InsertDataToTable(DataTable table)
         {
             DATA_GRID.DataSource = table;
             DATA_GRID.DataBind();
         }
 
-        void SetDropDowns()
+        private void SetDropDowns()
         {
             QUESTION_MONTHS_DROP.Items.Add(new ListItem("January", "Jan"));
             QUESTION_MONTHS_DROP.Items.Add(new ListItem("February", "Feb"));
@@ -214,18 +205,18 @@ namespace Route66_SKP_SKAL_Assignment
 
             // Year
             YEAR_LIST.Items.Add(new ListItem("Current Year", $"{DateTime.Now.Year}"));
-            YEAR_LIST.Items.Add(new ListItem($"{CurrentSY - 2}", $"{CurrentSY - 2}"));
-            YEAR_LIST.Items.Add(new ListItem($"{CurrentSY - 1}", $"{CurrentSY - 1}"));
-            YEAR_LIST.Items.Add(new ListItem($"{CurrentSY}", $"{CurrentSY}"));
-            YEAR_LIST.Items.Add(new ListItem($"{CurrentSY + 1}", $"{CurrentSY + 1}"));
-            YEAR_LIST.Items.Add(new ListItem($"{CurrentSY + 2}", $"{CurrentSY + 2}"));
+            YEAR_LIST.Items.Add(new ListItem($"{_currentSy - 2}", $"{_currentSy - 2}"));
+            YEAR_LIST.Items.Add(new ListItem($"{_currentSy - 1}", $"{_currentSy - 1}"));
+            YEAR_LIST.Items.Add(new ListItem($"{_currentSy}", $"{_currentSy}"));
+            YEAR_LIST.Items.Add(new ListItem($"{_currentSy + 1}", $"{_currentSy + 1}"));
+            YEAR_LIST.Items.Add(new ListItem($"{_currentSy + 2}", $"{_currentSy + 2}"));
 
-            string query = "" +
-                "SELECT * FROM kristia1_route66.`questions`";
+            const string query = "" +
+                                 "SELECT * FROM kristia1_route66.`questions`";
 
-            var queryRows = sql.GetDataFromDatabase(query);
+            var queryRows = _sql.GetDataFromDatabase(query);
 
-            foreach (DataRow row in queryRows)
+            foreach (var row in queryRows)
             {
                 CORRECT_BY_QUESTION_DROP.Items.Add(new ListItem(row["question_ID"].ToString(), row["question_ID"].ToString()));
             }
@@ -255,69 +246,64 @@ namespace Route66_SKP_SKAL_Assignment
             }
         }
 
-        int GetQuestionTableSize()
+        private int GetQuestionTableSize()
         {
-            int result = 0;
+            const string query = "" +
+                                 "SELECT * FROM kristia1_route66.`questions`;";
 
-            string query = "" +
-                "SELECT * FROM kristia1_route66.`questions`;";
+            var rows = _sql.GetDataFromDatabase(query);
 
-            var rows = sql.GetDataFromDatabase(query);
-
-            result = rows.Length;
+            var result = rows.Length;
 
             return result;
         }
 
-        bool VerifyTextboxContent()
+        private static bool VerifyTextboxContent()
         {
-            bool result = false;
+            const bool result = false;
 
-            
 
             return result;
         }
 
-        void PostNewQuestion()
+        private void PostNewQuestion()
         {
-            if (VerifyTextboxContent())
-            {
-                int nextID = GetQuestionTableSize() + 1;
+            if (!VerifyTextboxContent()) return;
+            var nextId = GetQuestionTableSize() + 1;
 
-                string query = "" +
-                    "INSERT INTO `kristia1_route66`.`questions`" +
-                    "(`question_ID`, `question_TEXT`, " +
-                    "`question_ANSWER1`, `question_ANSWER2`, `question_ANSWER3`, " +
-                    "`question_CORRECT-ANSWER`) " +
-                    "VALUES" +
-                    $"{nextID}, '{QUESTION_TEXT.Text}', " +
-                    $"'{ANSWER1_TEXT.Text}', '{ANSWER2_TEXT.Text}', '{ANSWER3_TEXT.Text}', " +
-                    $"'{ANSWER_DROP.SelectedValue}'";
+            var query = "" +
+                           "INSERT INTO `kristia1_route66`.`questions`" +
+                           "(`question_ID`, `question_TEXT`, " +
+                           "`question_ANSWER1`, `question_ANSWER2`, `question_ANSWER3`, " +
+                           "`question_CORRECT-ANSWER`) " +
+                           "VALUES" +
+                           $"{nextId}, '{QUESTION_TEXT.Text}', " +
+                           $"'{ANSWER1_TEXT.Text}', '{ANSWER2_TEXT.Text}', '{ANSWER3_TEXT.Text}', " +
+                           $"'{ANSWER_DROP.SelectedValue}'";
 
-                sql.SetDataToDatabase(query);
-            }
+            _sql.SetDataToDatabase(query);
         }
 
-        void SetStart()
+        private void SetStart()
         {
-            string query = "" +
+            var query = "" +
                 "UPDATE kristia1_route66.startinfo " +
                 $"SET info_SM = {int.Parse(MONTH_LIST.SelectedValue)}, info_SY = {int.Parse(YEAR_LIST.SelectedValue)} " +
                 "WHERE(info_ID = 1)";
 
-            sql.SetDataToDatabase(query);
+            _sql.SetDataToDatabase(query);
         }
 
-        void GetStart()
+        private void GetStart()
         {
-            string query = "" +
+            var query = "" +
                 "Select * from kristia1_route66.startinfo " +
-                $"Where info_ID = 1";
+                "Where info_ID = 1";
 
-            DataRow[] rows = sql.GetDataFromDatabase(query);
+            var rows = _sql.GetDataFromDatabase(query);
 
-            CurrentSM = int.Parse(rows[0]["info_SM"].ToString());
-            CurrentSY = int.Parse(rows[0]["info_SY"].ToString());
+            _currentSm = int.Parse(rows[0]["info_SM"].ToString());
+            _currentSy = int.Parse(rows[0]["info_SY"].ToString());
         }
 
 

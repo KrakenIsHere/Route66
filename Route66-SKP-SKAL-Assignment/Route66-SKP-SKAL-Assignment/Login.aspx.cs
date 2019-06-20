@@ -1,35 +1,31 @@
-﻿using MySql.Web.Security;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Web;
+﻿using System;
 using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Diagnostics;
+using MySql.Web.Security;
 
 namespace Route66_SKP_SKAL_Assignment
 {
-    public partial class Login : System.Web.UI.Page
+    public partial class Login : Page
     {
-        readonly MySQLMembershipProvider provider = new MySQLMembershipProvider();
+        private readonly MySQLMembershipProvider _provider = new MySQLMembershipProvider();
         protected void Login_Click(object sender, EventArgs e)
         {
             if (Session["username"] == null)
             {
                 try
                 {
-                    var isValid = provider.ValidateUser(USERNAME_TEXT.Text, PASSWORD_TEXT.Text);
+                    var isValid = _provider.ValidateUser(USERNAME_TEXT.Text, PASSWORD_TEXT.Text);
 
                     ERROR_LABEL.Text = isValid.ToString();
 
                     if (isValid)
                     {
                         Session["username"] = USERNAME_TEXT.Text;
-                        Response.Redirect("/Admin");
+                        Response.RedirectToRoute("AdminPanel");
                     }
                     else
                     {
-                        ERROR_LABEL.Text = "Wrong Username or Password";
+                        ERROR_LABEL.Text = @"Wrong Username or Password";
                     }
                 }
                 catch (Exception ex)
@@ -39,7 +35,7 @@ namespace Route66_SKP_SKAL_Assignment
             }
             else
             {
-                Response.Redirect("/Admin");
+                Response.RedirectToRoute("AdminPanel");
             }
         }
 

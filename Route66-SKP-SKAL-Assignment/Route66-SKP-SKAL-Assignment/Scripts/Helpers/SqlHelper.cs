@@ -1,28 +1,24 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Diagnostics;
 using System.Linq;
-using System.Web;
 
 namespace Route66_SKP_SKAL_Assignment.Scripts.Helpers
 {
     public class SqlHelper
     {
-        readonly bool isKraken = true; //Set this to false to make the code use Minik's connection string
-        string connStringName = "KrakenConnString";
-        readonly string connStringName2 = "MinikConnString";
+        readonly bool _isKraken = false; //Set this to false to make the code use Miniks connection string
+        private string _connStringName = "KrakenConnString";
+        private const string ConnStringName2 = "MinikConnString";
 
         public DataRow[] GetDataFromDatabase(string query) //Returns rows in table
         {
-            if(!isKraken)
+            if(!_isKraken)
             {
-                connStringName = connStringName2;
+                _connStringName = ConnStringName2;
             }
 
-            using (var conn = new MySqlConnection(ConfigurationManager.ConnectionStrings[connStringName].ConnectionString))
+            using (var conn = new MySqlConnection(ConfigurationManager.ConnectionStrings[_connStringName].ConnectionString))
             {
                 conn.Open();
 
@@ -38,12 +34,12 @@ namespace Route66_SKP_SKAL_Assignment.Scripts.Helpers
 
         public DataSet GetSetFromDatabase(string query) //Returns DataSet
         {
-            if (!isKraken)
+            if (!_isKraken)
             {
-                connStringName = connStringName2;
+                _connStringName = ConnStringName2;
             }
 
-            using (var conn = new MySqlConnection(ConfigurationManager.ConnectionStrings[connStringName].ConnectionString))
+            using (var conn = new MySqlConnection(ConfigurationManager.ConnectionStrings[_connStringName].ConnectionString))
             {
                 conn.Open();
 
@@ -57,12 +53,12 @@ namespace Route66_SKP_SKAL_Assignment.Scripts.Helpers
 
         public void SetDataToDatabase(string query) //Adds new data
         {
-            if (!isKraken)
+            if (!_isKraken)
             {
-                connStringName = connStringName2;
+                _connStringName = ConnStringName2;
             }
 
-            using (var conn = new MySqlConnection(ConfigurationManager.ConnectionStrings[connStringName].ConnectionString))
+            using (var conn = new MySqlConnection(ConfigurationManager.ConnectionStrings[_connStringName].ConnectionString))
             {
                 conn.Open();
 
@@ -103,12 +99,12 @@ namespace Route66_SKP_SKAL_Assignment.Scripts.Helpers
 
         public int UpdateDataToDatabase(string query) //Returns rows updated
         {
-            if (!isKraken)
+            if (!_isKraken)
             {
-                connStringName = connStringName2;
+                _connStringName = ConnStringName2;
             }
 
-            using (var conn = new MySqlConnection(ConfigurationManager.ConnectionStrings[connStringName].ConnectionString))
+            using (var conn = new MySqlConnection(ConfigurationManager.ConnectionStrings[_connStringName].ConnectionString))
             {
                 conn.Open();
 
@@ -124,14 +120,14 @@ namespace Route66_SKP_SKAL_Assignment.Scripts.Helpers
 
         public bool CheckDataFromDatabase(string query) //Returns true if row exists
         {
-            bool result = false;
+            var result = false;
 
-            if (!isKraken)
+            if (!_isKraken)
             {
-                connStringName = connStringName2;
+                _connStringName = ConnStringName2;
             }
 
-            using (var conn = new MySqlConnection(ConfigurationManager.ConnectionStrings[connStringName].ConnectionString))
+            using (var conn = new MySqlConnection(ConfigurationManager.ConnectionStrings[_connStringName].ConnectionString))
             {
                 conn.Open();
 
@@ -139,7 +135,7 @@ namespace Route66_SKP_SKAL_Assignment.Scripts.Helpers
                 {
                     CommandTimeout = 5
                 };
-                int rows = (int)cmd.ExecuteScalar();
+                var rows = (int)cmd.ExecuteScalar();
 
                 if (rows > 0)
                 {

@@ -75,7 +75,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="jumbotron">
-                        <div class="SetStart">
+                        <div>
                             <asp:UpdatePanel runat="server">
                                 <ContentTemplate>
                                     <asp:Label runat="server" Text="Question: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"></asp:Label> 
@@ -115,7 +115,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="jumbotron">
-                        <div class="SetStart">
+                        <div>
                             <asp:UpdatePanel runat="server">
                                 <ContentTemplate>
                                     <asp:Label runat="server" Text="Month: "></asp:Label> 
@@ -148,11 +148,11 @@
                     <asp:UpdatePanel runat="server">
                         <ContentTemplate>
                             <asp:Label runat="server" Text="Message sender: &nbsp;&nbsp;&nbsp;"></asp:Label>
-                            <asp:Textbox ID="txtFrom" CssClass="SendEmailTextbox" TextMode="Email" Text="krakendev122@gmail.com" Enabled=" false" runat="server" />
+                            <asp:Textbox ID="txtFrom" CssClass="SendEmailTextbox" TextMode="Email" Text="krakendev122@gmail.com" Enabled="false" runat="server" />
                             <br>
                             <br>
                             <asp:Label runat="server" Text="Message recipient: &nbsp;"></asp:Label>
-                            <asp:Textbox ID="txtTo" CssClass="SendEmailTextbox" TextMode="Email" runat="server" ToolTip="Insert ',' to seperate E-Mails" />
+                            <asp:Textbox ID="txtTo" CssClass="SendEmailTextbox" TextMode="Email" runat="server" ToolTip="Insert ',' to separate E-Mails" />
                             <br>
                             <br>
                             <asp:Label runat="server" Text="Message subject: &nbsp;&nbsp;&nbsp;"></asp:Label>
@@ -181,7 +181,7 @@
             <!-- Users -->
         <div id="Users" class="tab-pane fade">
             <div class="jumbotron">
-                    <div class="AddUser">
+                    <div>
                         <asp:UpdatePanel runat="server">
                             <ContentTemplate>
                                 <asp:Label runat="server" Text="Username: "></asp:Label> 

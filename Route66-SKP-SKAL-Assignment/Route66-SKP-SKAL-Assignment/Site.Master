@@ -14,6 +14,11 @@
 
     <webopt:bundlereference runat="server" path="~/Content/css" />
     <link href="~/Assets/Images/Logo.png" rel="shortcut icon" type="image/x-icon" />
+    
+    <!-- jQuery library 1.11.3 -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Bootstrap JS 3.3.5 -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 </head>
 <body>

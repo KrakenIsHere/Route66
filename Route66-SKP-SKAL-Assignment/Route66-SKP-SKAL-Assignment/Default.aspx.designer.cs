@@ -10,7 +10,7 @@
 namespace Route66_SKP_SKAL_Assignment {
     
     
-    public partial class _Default {
+    public partial class Default {
         
         /// <summary>
         /// QuestionMenu control.
