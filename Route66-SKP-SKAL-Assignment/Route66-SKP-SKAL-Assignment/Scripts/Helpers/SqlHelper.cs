@@ -7,7 +7,7 @@ namespace Route66_SKP_SKAL_Assignment.Scripts.Helpers
 {
     public class SqlHelper
     {
-        readonly bool _isKraken = false; //Set this to false to make the code use Miniks connection string
+        readonly bool _isKraken = true; //Set this to false to make the code use Miniks connection string
         private string _connStringName = "KrakenConnString";
         private const string ConnStringName2 = "MinikConnString";
 

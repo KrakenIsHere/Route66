@@ -44,7 +44,18 @@ namespace Route66_SKP_SKAL_Assignment
         {
             try
             {
-                Membership.CreateUser(USERNAME_TEXT.Text, PASSWORD_TEXT.Text, EMAIL_TEXT.Text);
+                var user = Membership.CreateUser(USERNAME_TEXT.Text, PASSWORD_TEXT.Text, EMAIL_TEXT.Text);
+
+                var roles = Roles.GetAllRoles();
+
+                if (roles.Length == 0)
+                {
+                    Roles.CreateRole("Member");
+
+                    roles = Roles.GetAllRoles();
+                }
+
+                Roles.AddUserToRole(user.UserName, roles[0]);
             }
             catch (Exception ex)
             {
@@ -144,7 +155,7 @@ namespace Route66_SKP_SKAL_Assignment
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["username"] == null)
+            if (Session["username"] != null)
             {
                 try
                 {
