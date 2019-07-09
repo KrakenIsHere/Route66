@@ -38,7 +38,7 @@ namespace Route66_SKP_SKAL_Assignment
         private void GetStart()
         {
             var query = "" +
-                        "Select * from kristia1_route66.startinfo " +
+                        "Select * from route66.startinfo " +
                         "Where info_ID = 1";
 
             var rows = _sql.GetDataFromDatabase(query);
@@ -54,15 +54,15 @@ namespace Route66_SKP_SKAL_Assignment
             var queries = new[]
             {
                 "" +
-                "Select * from kristia1_route66.questions " +
+                "Select * from route66.questions " +
                 $"Where question_ID = {monthIds[0].ToString()}",
 
                 "" +
-                "Select * from kristia1_route66.questions " +
+                "Select * from route66.questions " +
                 $"Where question_ID = {monthIds[1].ToString()}",
 
                 "" +
-                "Select * from kristia1_route66.questions " +
+                "Select * from route66.questions " +
                 $"Where question_ID = {monthIds[2].ToString()}"
             };
 
@@ -215,7 +215,7 @@ namespace Route66_SKP_SKAL_Assignment
         private bool VerifyTicketNotExists(string eMail, IReadOnlyList<int> questionIDs)
         {
             var query = "" +
-                        "Select * from kristia1_route66.visitors " +
+                        "Select * from route66.visitors " +
                         $"Where visitor_EMAIL = {eMail} AND visitor_QUESTION_ID = {questionIDs[0]} OR visitor_QUESTION_ID = {questionIDs[1]} OR visitor_QUESTION_ID = {questionIDs[2]}";
 
             var verified = _sql.CheckDataFromDatabase(query);
@@ -254,11 +254,11 @@ namespace Route66_SKP_SKAL_Assignment
             if (!VerifyTicketNotExists(EMAIL_TEXTBOX.Text, ids.ToArray())) return;
             var id = CustomIdGen();
 
-            // INSERT INTO `kristia1_route66`.`visitors` (`visitor_FIRSTNAME`, `visitor_LASTNAME`, `visitor_EMAIL`, `visitor_CUSTOM-ID`, `visitor_ANSWER_ID`, `visitor_QUESTION_ID`) VALUES ('kim', 'johnson', 'kimjohnson804@gmail.com', 'Ao4tUX', '1', '5');
+            // INSERT INTO `route66`.`visitors` (`visitor_FIRSTNAME`, `visitor_LASTNAME`, `visitor_EMAIL`, `visitor_CUSTOM-ID`, `visitor_ANSWER_ID`, `visitor_QUESTION_ID`) VALUES ('kim', 'johnson', 'kimjohnson804@gmail.com', 'Ao4tUX', '1', '5');
             var queries = new[]
             {
                 //1
-                "INSERT INTO `kristia1_route66`.`visitors` " +
+                "INSERT INTO `route66`.`visitors` " +
                 "(`visitor_FIRSTNAME`, `visitor_LASTNAME`, `visitor_EMAIL`, " +
                 "`visitor_CUSTOM-ID`, `visitor_ANSWER_ID`, `visitor_QUESTION_ID`) " +
                 "VALUES " +
@@ -266,7 +266,7 @@ namespace Route66_SKP_SKAL_Assignment
                 $"'{id}', {GetSubmissionAnswerId(_questionId1)}, {_questionId1});",
 
                 //2
-                "INSERT INTO `kristia1_route66`.`visitors` " +
+                "INSERT INTO `route66`.`visitors` " +
                 "(`visitor_FIRSTNAME`, `visitor_LASTNAME`, `visitor_EMAIL`, " +
                 "`visitor_CUSTOM-ID`, `visitor_ANSWER_ID`, `visitor_QUESTION_ID`) " +
                 "VALUES " +
@@ -274,7 +274,7 @@ namespace Route66_SKP_SKAL_Assignment
                 $"'{id}', {GetSubmissionAnswerId(_questionId2)}, {_questionId2});",
 
                 //3
-                "INSERT INTO `kristia1_route66`.`visitors` " +
+                "INSERT INTO `route66`.`visitors` " +
                 "(`visitor_FIRSTNAME`, `visitor_LASTNAME`, `visitor_EMAIL`, " +
                 "`visitor_CUSTOM-ID`, `visitor_ANSWER_ID`, `visitor_QUESTION_ID`) " +
                 "VALUES " +

@@ -12,22 +12,22 @@ namespace Route66_SKP_SKAL_Assignment
 {
     public partial class Admin : Page
     {
-        private const string GetAllVisitors = "SELECT * FROM kristia1_route66.`all-visitors`;"; //Used as is
+        private const string GetAllVisitors = "SELECT * FROM route66.`all-visitors`;"; //Used as is
 
         readonly string getShowOnlyCorrect = "" + //Used as is
-            "SELECT * FROM kristia1_route66.`all-visitors`" +
+            "SELECT * FROM route66.`all-visitors`" +
             "WHERE ANSWER_ID = 1";
 
         readonly string getShowOnlyCorrectFromQuestion = "" + //Needs extra input
-            "SELECT * FROM kristia1_route66.`all-visitors`" +
+            "SELECT * FROM route66.`all-visitors`" +
             "WHERE ANSWER_ID = 1 AND QUESTION_ID = ";
 
         readonly string getShowOnlyFromQuestion = "" + //Needs extra input
-            "SELECT * FROM kristia1_route66.`all-visitors`" +
+            "SELECT * FROM route66.`all-visitors`" +
             "WHERE QUESTION_ID = ";
 
         readonly string getShowOnlyFromMonth = "" + //Needs extra input
-            "SELECT * FROM `kristia1_route66`.`all-visitors`" +
+            "SELECT * FROM `route66`.`all-visitors`" +
             "WHERE `CUSTOM-ID` LIKE '%:%' ";
 
 
@@ -223,7 +223,7 @@ namespace Route66_SKP_SKAL_Assignment
             YEAR_LIST.Items.Add(new ListItem($"{_currentSy + 2}", $"{_currentSy + 2}"));
 
             const string query = "" +
-                                 "SELECT * FROM kristia1_route66.`questions`";
+                                 "SELECT * FROM route66.`questions`";
 
             var queryRows = _sql.GetDataFromDatabase(query);
 
@@ -260,7 +260,7 @@ namespace Route66_SKP_SKAL_Assignment
         private int GetQuestionTableSize()
         {
             const string query = "" +
-                                 "SELECT * FROM kristia1_route66.`questions`;";
+                                 "SELECT * FROM route66.`questions`;";
 
             var rows = _sql.GetDataFromDatabase(query);
 
@@ -283,7 +283,7 @@ namespace Route66_SKP_SKAL_Assignment
             var nextId = GetQuestionTableSize() + 1;
 
             var query = "" +
-                           "INSERT INTO `kristia1_route66`.`questions`" +
+                           "INSERT INTO `route66`.`questions`" +
                            "(`question_ID`, `question_TEXT`, " +
                            "`question_ANSWER1`, `question_ANSWER2`, `question_ANSWER3`, " +
                            "`question_CORRECT-ANSWER`) " +
@@ -298,7 +298,7 @@ namespace Route66_SKP_SKAL_Assignment
         private void SetStart()
         {
             var query = "" +
-                "UPDATE kristia1_route66.startinfo " +
+                "UPDATE route66.startinfo " +
                 $"SET info_SM = {int.Parse(MONTH_LIST.SelectedValue)}, info_SY = {int.Parse(YEAR_LIST.SelectedValue)} " +
                 "WHERE(info_ID = 1)";
 
@@ -308,7 +308,7 @@ namespace Route66_SKP_SKAL_Assignment
         private void GetStart()
         {
             var query = "" +
-                "Select * from kristia1_route66.startinfo " +
+                "Select * from route66.startinfo " +
                 "Where info_ID = 1";
 
             var rows = _sql.GetDataFromDatabase(query);
